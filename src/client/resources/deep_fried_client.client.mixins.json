@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "Kilip1000.deep_fried_client.mixin.client",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"ExampleClientMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

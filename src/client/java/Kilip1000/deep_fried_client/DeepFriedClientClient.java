@@ -48,9 +48,9 @@ public class DeepFriedClientClient implements ClientModInitializer {
     public void onInitializeClient() {
         MC = Minecraft.getInstance();
         registerKeybind("open", false, () -> Minecraft.getInstance().setScreen(new MainHackScreen()), GLFW.GLFW_KEY_RIGHT_SHIFT);
-        registerKeybind("hack_fly", false, () -> Hacks.toggleHack(Hacks.Hack.FLY), InputConstants.UNKNOWN.getValue());
-        registerKeybind("hack_no_gravity", false, () -> Hacks.toggleHack(Hacks.Hack.NO_GRAVITY), InputConstants.UNKNOWN.getValue());
-        registerKeybind("hack_invisibility_bypass", false, () -> Hacks.toggleHack(Hacks.Hack.INVISIBILITY_BYPASS), InputConstants.UNKNOWN.getValue());
+        registerKeybind("hack_fly", false, () -> Hacks.toggleHack(Hacks.Hack.FLY), -1);
+        registerKeybind("hack_no_gravity", false, () -> Hacks.toggleHack(Hacks.Hack.NO_GRAVITY), -1);
+        registerKeybind("hack_invisibility_bypass", false, () -> Hacks.toggleHack(Hacks.Hack.INVISIBILITY_BYPASS), -1);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             var player = MC.player;

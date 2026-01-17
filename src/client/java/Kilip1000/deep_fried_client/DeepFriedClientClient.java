@@ -16,8 +16,6 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Kilip1000.deep_fried_client.DeepFriedClient.LOGGER;
-
 public class DeepFriedClientClient implements ClientModInitializer {
     private static final List<KeyInformation> keyInformation = new ArrayList<>();
     public static Category CATEGORY = KeyMapping.Category.register(DeepFriedClient.id("keybinds"));
@@ -95,7 +93,6 @@ public class DeepFriedClientClient implements ClientModInitializer {
                     movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y + 90).x, 0, getVecFromYaw(rotation.y + 90).y));
                 }
 
-                LOGGER.info(String.valueOf(movement_motion));
                 PlayerMovementUtils.setMotion(movement_motion.x, movement_motion.y, movement_motion.z);
             }
 
@@ -113,4 +110,5 @@ public class DeepFriedClientClient implements ClientModInitializer {
     }
 
     public record KeyInformation(KeyMapping keyMappings, KeyResponse keyResponses) {}
+
 }

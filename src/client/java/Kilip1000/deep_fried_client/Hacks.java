@@ -5,11 +5,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
 public class Hacks {
-    //value classes would be fun for toggles
     public static boolean hack_fly = false;
     public static boolean hack_no_gravity = false;
     public static boolean hack_invisibility_bypass = false;
 
+    //value classes would be fun for toggles, I'm sad
     public static void toggleHack(Hack hack){
         switch (hack) {
             case FLY -> hack_fly = !hack_fly;

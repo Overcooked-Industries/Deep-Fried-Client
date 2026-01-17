@@ -5,7 +5,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.phys.Vec3;
+
+import static Kilip1000.deep_fried_client.DeepFriedClientClient.MC;
 
 public class MainHackScreen extends Screen {
     public MainHackScreen(Component title) {
@@ -30,9 +34,7 @@ public class MainHackScreen extends Screen {
     }
 
     public void add_button(String title, ButtonResponse func, int pos_x, int pos_y, int size_x, int size_y) {
-        Button buttonWidget = Button.builder(Component.nullToEmpty(title), (btn) -> {
-            func.respond();
-        }).bounds(pos_x, pos_y, size_x, size_y).build();
+        Button buttonWidget = Button.builder(Component.nullToEmpty(title), (btn) -> func.respond()).bounds(pos_x, pos_y, size_x, size_y).build();
         this.addRenderableWidget(buttonWidget);
     }
 
@@ -42,8 +44,24 @@ public class MainHackScreen extends Screen {
 
     @Override
     protected void init() {
-        add_button("Close", () -> {Minecraft.getInstance().setScreen(null);}, 270, 350, 100, 20);
-        add_button("Fly Hack: " + colored_bool_text(DeepFriedClientClient.fly_hack), () -> {DeepFriedClientClient.fly_hack = !DeepFriedClientClient.fly_hack; reload();}, 40, 75, 150, 20);
+        add_button("Close", () -> {
+            Minecraft.getInstance().setScreen(null);
+        }, 270, 350, 100, 20);
+        add_button("Fly Hack: " + colored_bool_text(DeepFriedClientClient.fly_hack), () -> {
+            DeepFriedClientClient.fly_hack = !DeepFriedClientClient.fly_hack;
+            reload();
+
+            LocalPlayer player = MC.player;
+            if(player == null) return;
+
+            player.getAbilities().flying = false;
+
+            player.setDeltaMovement(0, 0, 0);
+            Vec3 velocity = player.getDeltaMovement();
+
+            player.setDeltaMovement(velocity.x, 5, velocity.z);
+
+            }, 40, 75, 150, 20);
     }
 
     @Override

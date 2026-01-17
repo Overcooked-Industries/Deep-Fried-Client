@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.resources.Identifier;
@@ -18,13 +19,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeepFriedClientClient implements ClientModInitializer {
+	public static Minecraft MC;
+
+	@Override
+	public String toString() {
+		return super.toString();
+	}
+
 	@FunctionalInterface
 	public interface KeyResponse {
 		void respond();
 	}
+
 	private static record KeyInformation(KeyMapping keyMappings, KeyResponse keyResponses){}
 
-	private static List<KeyInformation> keyInformations = new ArrayList<>();
+	private static final List<KeyInformation> keyInformations = new ArrayList<>();
 
 	/**
 	 @param use_mouse {@code false} to register a keyboard input, {@code true} to register a mouse input.
@@ -50,16 +59,16 @@ public class DeepFriedClientClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
+		MC = Minecraft.getInstance();
+
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			for (var mapping: keyInformations) {
 				if (mapping.keyMappings.isDown()) {
 					mapping.keyResponses.respond();
 				}
 			}
-		var pos = Minecraft.getInstance().player.position();
-		var rot = Minecraft.getInstance().player.getRotationVector();
-		var ground = Minecraft.getInstance().player.onGround();
-		ClientPlayNetworking.send(new ServerboundMovePlayerPacket.Pos(new Vec3(pos.x, pos.y, pos.z), true, false))
+		//ClientPlayNetworking.send(new ServerboundMovePlayerPacket.Pos(new Vec3(pos.x, pos.y, pos.z), true, false))
 		});
+
 	}
 }

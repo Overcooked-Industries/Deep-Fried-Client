@@ -1,6 +1,6 @@
-package Kilip1000.deep_fried_client;
+package de.deep_fried_client;
 
-import Kilip1000.deep_fried_client.screens.MainHackScreen;
+import de.deep_fried_client.screens.MainHackScreen;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.KeyMapping.Category;

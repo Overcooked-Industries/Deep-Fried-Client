@@ -1,4 +1,4 @@
-package Kilip1000.deep_fried_client;
+package de.deep_fried_client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

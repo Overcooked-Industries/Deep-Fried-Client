@@ -16,10 +16,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"Kilip1000.deep_fried_client.DeepFriedClient"
+          "de.deep_fried_client.DeepFriedClient"
 		],
 		"client": [
-			"Kilip1000.deep_fried_client.DeepFriedClientClient"
+          "de.deep_fried_client.DeepFriedClientClient"
 		]
 	},
 	"mixins": [

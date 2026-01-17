@@ -1,6 +1,6 @@
-package Kilip1000.deep_fried_client.screens;
+package de.deep_fried_client.screens;
 
-import Kilip1000.deep_fried_client.Hacks;
+import de.deep_fried_client.Hacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;

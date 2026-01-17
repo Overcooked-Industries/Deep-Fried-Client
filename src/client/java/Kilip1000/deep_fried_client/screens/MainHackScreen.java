@@ -7,6 +7,8 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
+import static Kilip1000.deep_fried_client.PlayerMovementUtils.applyMotion;
+
 public class MainHackScreen extends Screen {
     public MainHackScreen(Component title) {
         super(title);
@@ -41,6 +43,7 @@ public class MainHackScreen extends Screen {
         add_button("Fly Hack: " + colored_bool_text(DeepFriedClientClient.fly_hack), () -> {
             DeepFriedClientClient.fly_hack = !DeepFriedClientClient.fly_hack;
             reload();
+            applyMotion(0,1,0);
         }, 40, 75, 150, 20);
     }
 

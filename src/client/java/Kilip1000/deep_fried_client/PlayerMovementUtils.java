@@ -12,16 +12,13 @@ public class PlayerMovementUtils {
         if (player == null) return;
 
         player.getAbilities().flying = false;
-
-        player.setDeltaMovement(0, 0, 0);
-        Vec3 velocity = player.getDeltaMovement();
-
         player.setDeltaMovement(x, y, z);
     }
 
     public static void addDeltaMotion(double dx, double dy, double dz) {
         LocalPlayer player = MC.player;
         if (player == null) return;
+
         Vec3 velocity = player.getDeltaMovement();
         applyMotion(velocity.x + dx, velocity.y + dy, velocity.z + dz);
     }

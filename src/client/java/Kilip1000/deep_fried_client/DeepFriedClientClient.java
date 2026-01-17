@@ -14,6 +14,8 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Kilip1000.deep_fried_client.PlayerMovementUtils.applyMotion;
+
 public class DeepFriedClientClient implements ClientModInitializer {
     private static final List<KeyInformation> keyInformations = new ArrayList<>();
     private static final KeyInformation KEY_OPEN = register_keybind("open", false, () -> Minecraft.getInstance().setScreen(new MainHackScreen(Component.empty())));
@@ -51,7 +53,6 @@ public class DeepFriedClientClient implements ClientModInitializer {
                     mapping.keyResponses.respond();
                 }
             }
-            //ClientPlayNetworking.send(new ServerboundMovePlayerPacket.Pos(new Vec3(pos.x, pos.y, pos.z), true, false))
         });
 
     }

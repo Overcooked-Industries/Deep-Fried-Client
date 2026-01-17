@@ -49,11 +49,18 @@ public class DeepFriedClientClient implements ClientModInitializer {
                     mapping.keyResponses.respond();
                 }
             }
-            if (MC.options.keyJump.isDown() && hack_fly && MC.player.gameMode() != GameType.CREATIVE && MC.player.gameMode() != GameType.SPECTATOR) {
-                PlayerMovementUtils.setMotion(0, 1, 0);}
 
-            if (hack_no_gravity) {
-                PlayerMovementUtils.applyMotion(0, -MC.player.getDeltaMovement().y, 0);}
+            if (MC.options.keyJump.isDown() && hack_fly && MC.player.gameMode() != GameType.CREATIVE && MC.player.gameMode() != GameType.SPECTATOR) {
+                PlayerMovementUtils.applyMotion(0, 1, 0);
+            }
+
+            if (MC.options.keyShift.isDown() && hack_fly && MC.player.gameMode() != GameType.CREATIVE && MC.player.gameMode() != GameType.SPECTATOR) {
+                PlayerMovementUtils.applyMotion(0, -1, 0);
+            }
+
+            if (hack_no_gravity || (hack_fly && !(MC.options.keyShift.isDown() || MC.options.keyJump.isDown()))) {
+                PlayerMovementUtils.applyMotion(0, -MC.player.getDeltaMovement().y, 0);
+            }
         });
 
     }

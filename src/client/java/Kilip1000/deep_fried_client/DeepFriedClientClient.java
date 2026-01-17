@@ -46,13 +46,16 @@ public class DeepFriedClientClient implements ClientModInitializer {
 
         registerKeybind("open", false, () -> Minecraft.getInstance().setScreen(new MainHackScreen()), GLFW.GLFW_KEY_RIGHT_SHIFT);
         registerKeybind("debug", false, () -> {
+            assert MC.player != null;
             Vec2 rotation = MC.player.getRotationVector();
-            var z = Math.cos(rotation.x * Math.PI / 180) * Math.cos(rotation.y * Math.PI / 180);
-            var x = 1 - z;
-            LOGGER.info("X: " + x);
-            LOGGER.info("Z: " + z);
-            LOGGER.info(String.valueOf(x + z));
-        }, GLFW.GLFW_KEY_RIGHT_SHIFT);
+            //why the f- is y, the second component of the Vector, the yaw???
+            var z = Math.cos(rotation.y * (Math.PI / 180));
+            var x = -Math.sin(rotation.y * (Math.PI / 180));
+            LOGGER.info("X: {}", x);
+            LOGGER.info("Z: {}", z);
+
+        }, GLFW.GLFW_KEY_K);
+
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             var player = MC.player;
             if (player == null) return;

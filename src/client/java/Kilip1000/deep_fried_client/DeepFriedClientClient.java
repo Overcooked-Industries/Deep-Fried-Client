@@ -9,18 +9,19 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.GameType;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static Kilip1000.deep_fried_client.PlayerMovementUtils.applyMotion;
-
 public class DeepFriedClientClient implements ClientModInitializer {
     private static final List<KeyInformation> keyInformations = new ArrayList<>();
     private static final KeyInformation KEY_OPEN = register_keybind("open", false, () -> Minecraft.getInstance().setScreen(new MainHackScreen(Component.empty())));
     public static Minecraft MC;
-    public static boolean fly_hack = false;
+
+    public static boolean hack_fly = false;
+    public static boolean hack_no_gravity = false;
 
     /**
      * @param use_mouse {@code false} to register a keyboard input, {@code true} to register a mouse input.
@@ -39,11 +40,6 @@ public class DeepFriedClientClient implements ClientModInitializer {
     }
 
     @Override
-    public String toString() {
-        return super.toString();
-    }
-
-    @Override
     public void onInitializeClient() {
         MC = Minecraft.getInstance();
 
@@ -53,6 +49,11 @@ public class DeepFriedClientClient implements ClientModInitializer {
                     mapping.keyResponses.respond();
                 }
             }
+            if (MC.options.keyJump.isDown() && hack_fly && MC.player.gameMode() != GameType.CREATIVE && MC.player.gameMode() != GameType.SPECTATOR) {
+                PlayerMovementUtils.setMotion(0, 1, 0);}
+
+            if (hack_no_gravity) {
+                PlayerMovementUtils.applyMotion(0, -MC.player.getDeltaMovement().y, 0);}
         });
 
     }

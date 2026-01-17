@@ -7,8 +7,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-import static Kilip1000.deep_fried_client.PlayerMovementUtils.applyMotion;
-
 public class MainHackScreen extends Screen {
     public MainHackScreen(Component title) {
         super(title);
@@ -40,11 +38,14 @@ public class MainHackScreen extends Screen {
         add_button("Close", () -> {
             Minecraft.getInstance().setScreen(null);
         }, 270, 350, 100, 20);
-        add_button("Fly Hack: " + colored_bool_text(DeepFriedClientClient.fly_hack), () -> {
-            DeepFriedClientClient.fly_hack = !DeepFriedClientClient.fly_hack;
+        add_button("Fly: " + colored_bool_text(DeepFriedClientClient.hack_fly), () -> {
+            DeepFriedClientClient.hack_fly = !DeepFriedClientClient.hack_fly;
             reload();
-            applyMotion(0,1,0);
         }, 40, 75, 150, 20);
+        add_button("Zero Gravity: " + colored_bool_text(DeepFriedClientClient.hack_no_gravity), () -> {
+            DeepFriedClientClient.hack_no_gravity = !DeepFriedClientClient.hack_no_gravity;
+            reload();
+        }, 40, 100, 150, 20);
     }
 
     @Override

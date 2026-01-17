@@ -5,11 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.phys.Vec3;
-
-import static Kilip1000.deep_fried_client.DeepFriedClientClient.MC;
 
 public class MainHackScreen extends Screen {
     public MainHackScreen(Component title) {
@@ -24,12 +20,7 @@ public class MainHackScreen extends Screen {
         }
     }
 
-    @FunctionalInterface
-    public interface ButtonResponse {
-        void respond();
-    }
-
-    public void reload(){
+    public void reload() {
         Minecraft.getInstance().setScreen(this);
     }
 
@@ -50,23 +41,17 @@ public class MainHackScreen extends Screen {
         add_button("Fly Hack: " + colored_bool_text(DeepFriedClientClient.fly_hack), () -> {
             DeepFriedClientClient.fly_hack = !DeepFriedClientClient.fly_hack;
             reload();
-
-            LocalPlayer player = MC.player;
-            if(player == null) return;
-
-            player.getAbilities().flying = false;
-
-            player.setDeltaMovement(0, 0, 0);
-            Vec3 velocity = player.getDeltaMovement();
-
-            player.setDeltaMovement(velocity.x, 5, velocity.z);
-
-            }, 40, 75, 150, 20);
+        }, 40, 75, 150, 20);
     }
 
     @Override
     public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
         add_label(context, "Deep Fried Client", 40, 40);
         super.render(context, mouseX, mouseY, delta);
+    }
+
+    @FunctionalInterface
+    public interface ButtonResponse {
+        void respond();
     }
 }

@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.phys.Vec3;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -44,6 +45,10 @@ public class DeepFriedClientClient implements ClientModInitializer {
         MC = Minecraft.getInstance();
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (MC.player == null) return;
+            
+            Vec3 motion = MC.player.getDeltaMovement();
+
             for (var mapping : keyInformations) {
                 if (mapping.keyMappings.isDown()) {
                     mapping.keyResponses.respond();
@@ -51,15 +56,15 @@ public class DeepFriedClientClient implements ClientModInitializer {
             }
 
             if (MC.options.keyJump.isDown() && hack_fly && MC.player.gameMode() != GameType.CREATIVE && MC.player.gameMode() != GameType.SPECTATOR) {
-                PlayerMovementUtils.applyMotion(0, 1, 0);
+                PlayerMovementUtils.setMotion(motion.x, 1, motion.z);
             }
 
             if (MC.options.keyShift.isDown() && hack_fly && MC.player.gameMode() != GameType.CREATIVE && MC.player.gameMode() != GameType.SPECTATOR) {
-                PlayerMovementUtils.applyMotion(0, -1, 0);
+                PlayerMovementUtils.setMotion(motion.x, -1, motion.z);
             }
 
             if (hack_no_gravity || (hack_fly && !(MC.options.keyShift.isDown() || MC.options.keyJump.isDown()))) {
-                PlayerMovementUtils.applyMotion(0, -MC.player.getDeltaMovement().y, 0);
+                PlayerMovementUtils.applyMotion(0, -motion.y, 0);
             }
         });
 

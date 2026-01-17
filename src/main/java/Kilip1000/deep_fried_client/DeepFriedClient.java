@@ -1,6 +1,7 @@
 package Kilip1000.deep_fried_client;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,5 +12,10 @@ public class DeepFriedClient implements ModInitializer {
     @Override
     public void onInitialize() {
         LOGGER.info("Deep Fried Client loaded.");
+    }
+
+    public static Identifier id(String id)
+    {
+        return Identifier.fromNamespaceAndPath(MOD_ID, id);
     }
 }

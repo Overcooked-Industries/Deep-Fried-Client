@@ -1,6 +1,6 @@
 package Kilip1000.deep_fried_client.screens;
 
-import Kilip1000.deep_fried_client.DeepFriedClientClient;
+import Kilip1000.deep_fried_client.ActiveHacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -8,8 +8,8 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
 public class MainHackScreen extends Screen {
-    public MainHackScreen(Component title) {
-        super(title);
+    public MainHackScreen() {
+        super(Component.empty());
     }
 
     public String colored_bool_text(boolean org_bool) {
@@ -24,8 +24,11 @@ public class MainHackScreen extends Screen {
         Minecraft.getInstance().setScreen(this);
     }
 
-    public void add_button(String title, ButtonResponse func, int pos_x, int pos_y, int size_x, int size_y) {
-        Button buttonWidget = Button.builder(Component.nullToEmpty(title), (btn) -> func.respond()).bounds(pos_x, pos_y, size_x, size_y).build();
+    public void addButton(String title, ButtonResponse func, int pos_x, int pos_y, int size_x, int size_y) {
+        Button buttonWidget = Button.builder(Component.nullToEmpty(title), (btn) -> {
+            func.respond();
+            reload();
+        }).bounds(pos_x, pos_y, size_x, size_y).build();
         this.addRenderableWidget(buttonWidget);
     }
 
@@ -33,26 +36,25 @@ public class MainHackScreen extends Screen {
         context.drawString(this.font, title, pos_x, pos_y - this.font.lineHeight - 10, 0xFFFFFFFF, true);
     }
 
+    public void addSmartButton(String title, boolean hack, ButtonResponse func, int offset) {
+        Button buttonWidget = Button.builder(Component.nullToEmpty(title + colored_bool_text(hack)), (btn) -> {
+            func.respond();
+            reload();
+        }).bounds(40, 75 + offset * 25, 150, 20).build();
+        this.addRenderableWidget(buttonWidget);
+    }
+
     @Override
     protected void init() {
-        add_button("Close", () -> {
-            Minecraft.getInstance().setScreen(null);
-        }, 270, 350, 100, 20);
+        addButton("Close", () -> Minecraft.getInstance().setScreen(null), 270, 350, 100, 20);
 
-        add_button("Fly: " + colored_bool_text(DeepFriedClientClient.hack_fly), () -> {
-            DeepFriedClientClient.hack_fly = !DeepFriedClientClient.hack_fly;
-            reload();
-        }, 40, 75, 150, 20);
+        ButtonResponse toggleFly =      () -> ActiveHacks.hack_fly = !ActiveHacks.hack_fly;
+        ButtonResponse toggleNoGrav =   () -> ActiveHacks.hack_no_gravity = !ActiveHacks.hack_no_gravity;
+        ButtonResponse toggleNoInvis =  () -> ActiveHacks.hack_invisibility_bypass = !ActiveHacks.hack_invisibility_bypass;
 
-        add_button("Zero Gravity: " + colored_bool_text(DeepFriedClientClient.hack_no_gravity), () -> {
-            DeepFriedClientClient.hack_no_gravity = !DeepFriedClientClient.hack_no_gravity;
-            reload();
-        }, 40, 100, 150, 20);
-
-        add_button("Invisibility-Bypass: " + colored_bool_text(DeepFriedClientClient.hack_invisibility_bypass), () -> {
-            DeepFriedClientClient.hack_invisibility_bypass = !DeepFriedClientClient.hack_invisibility_bypass;
-            reload();
-        }, 40, 125, 150, 20);
+        addSmartButton("Fly: ",                 ActiveHacks.hack_fly,                   toggleFly,      0);
+        addSmartButton("Zero Gravity: ",        ActiveHacks.hack_no_gravity,            toggleNoGrav,   1);
+        addSmartButton("Invisibility-Bypass: ", ActiveHacks.hack_invisibility_bypass,   toggleNoInvis,  2);
     }
 
     @Override

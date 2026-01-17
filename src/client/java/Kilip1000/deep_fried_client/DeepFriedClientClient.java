@@ -9,11 +9,14 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static Kilip1000.deep_fried_client.DeepFriedClient.LOGGER;
 
 public class DeepFriedClientClient implements ClientModInitializer {
     private static final List<KeyInformation> keyInformation = new ArrayList<>();
@@ -40,11 +43,20 @@ public class DeepFriedClientClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         MC = Minecraft.getInstance();
-        registerKeybind("open", false, () -> Minecraft.getInstance().setScreen(new MainHackScreen()), GLFW.GLFW_KEY_RIGHT_SHIFT);
 
+        registerKeybind("open", false, () -> Minecraft.getInstance().setScreen(new MainHackScreen()), GLFW.GLFW_KEY_RIGHT_SHIFT);
+        registerKeybind("debug", false, () -> {
+            Vec2 rotation = MC.player.getRotationVector();
+            var z = Math.cos(rotation.x * Math.PI / 180) * Math.cos(rotation.y * Math.PI / 180);
+            var x = 1 - z;
+            LOGGER.info("X: " + x);
+            LOGGER.info("Z: " + z);
+            LOGGER.info(String.valueOf(x + z));
+        }, GLFW.GLFW_KEY_RIGHT_SHIFT);
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (MC.player == null) return;
-            Vec3 motion = MC.player.getDeltaMovement();
+            var player = MC.player;
+            if (player == null) return;
+            Vec3 motion = player.getDeltaMovement();
 
             for (var mapping : keyInformation) {
                 if (mapping.keyMappings.isDown()) {
@@ -52,23 +64,29 @@ public class DeepFriedClientClient implements ClientModInitializer {
                 }
             }
 
+
             boolean jump = MC.options.keyJump.isDown();
             boolean shift = MC.options.keyShift.isDown();
 
-            GameType gameMode = MC.player.gameMode();
+            var movement = new boolean[]{MC.options.keyUp.isDown(), MC.options.keyLeft.isDown(), MC.options.keyDown.isDown(), MC.options.keyRight.isDown()};
+
+            GameType gameMode = player.gameMode();
             boolean isCreative = gameMode == GameType.CREATIVE;
             boolean isSpectator = gameMode == GameType.SPECTATOR;
             boolean inValidGameMode = !(isCreative || isSpectator);
 
-            if (ActiveHacks.hack_fly && jump && inValidGameMode) {
-                PlayerMovementUtils.setMotion(motion.x, 1, motion.z);
+            if (ActiveHacks.hack_fly && inValidGameMode){
+                PlayerMovementUtils.setMotion(0, 0, 0);
+
+                if (jump) {
+                    PlayerMovementUtils.setMotion(motion.x, 1, motion.z);
+                }
+                if (shift) {
+                    PlayerMovementUtils.setMotion(motion.x, -1, motion.z);
+                }
             }
 
-            if (ActiveHacks.hack_fly && shift && inValidGameMode) {
-                PlayerMovementUtils.setMotion(motion.x, -1, motion.z);
-            }
-
-            if (ActiveHacks.hack_no_gravity || (ActiveHacks.hack_fly && !(shift || jump))) {
+            if (ActiveHacks.hack_no_gravity) {
                 PlayerMovementUtils.applyMotion(0, -motion.y, 0);
             }
         });

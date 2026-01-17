@@ -1,7 +1,6 @@
 plugins {
 	id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
 	id 'maven-publish'
-	id 'checkstyle'
 }
 
 version = project.mod_version
@@ -17,11 +16,6 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
-}
-
-
-checkstyle {
-	toolVersion = "10.12.4"
 }
 
 loom {

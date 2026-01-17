@@ -1,11 +1,9 @@
 package de.deep_fried_client;
 
+import net.fabricmc.api.ModInitializer;
+import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import net.minecraft.resources.Identifier;
-
-import net.fabricmc.api.ModInitializer;
 
 public class DeepFriedClient implements ModInitializer {
     public static final String MOD_ID = "deep_fried_client";
@@ -16,7 +14,8 @@ public class DeepFriedClient implements ModInitializer {
         LOGGER.info("Deep Fried Client loaded.");
     }
 
-    public static Identifier id(String id) {
+    public static Identifier id(String id)
+    {
         return Identifier.fromNamespaceAndPath(MOD_ID, id);
     }
 }

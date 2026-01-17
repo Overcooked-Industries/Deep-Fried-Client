@@ -51,6 +51,8 @@ public class DeepFriedClientClient implements ClientModInitializer {
         registerKeybind("hack_invisibility_bypass", false, () -> Hacks.toggleHack(Hacks.Hack.INVISIBILITY_BYPASS), -1);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (Hacks.hack_cooldown > 0) Hacks.hack_cooldown -= 1;
+
             var player = MC.player;
             if (player == null) return;
             Vec3 motion = player.getDeltaMovement();

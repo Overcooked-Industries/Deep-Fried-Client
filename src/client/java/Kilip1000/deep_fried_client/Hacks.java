@@ -9,8 +9,11 @@ public class Hacks {
     public static boolean hack_no_gravity = false;
     public static boolean hack_invisibility_bypass = false;
 
-    //value classes would be fun for toggles, I'm sad
+    public static int hack_cooldown = 0;
+
     public static void toggleHack(Hack hack){
+        if (hack_cooldown != 0) {hack_cooldown = 2; return;}
+        hack_cooldown = 2;
         switch (hack) {
             case FLY -> hack_fly = !hack_fly;
             case NO_GRAVITY -> hack_no_gravity = !hack_no_gravity;

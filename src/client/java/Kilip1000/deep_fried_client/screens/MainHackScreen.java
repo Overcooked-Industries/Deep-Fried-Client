@@ -1,6 +1,6 @@
 package Kilip1000.deep_fried_client.screens;
 
-import Kilip1000.deep_fried_client.ActiveHacks;
+import Kilip1000.deep_fried_client.Hacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -12,7 +12,7 @@ public class MainHackScreen extends Screen {
         super(Component.empty());
     }
 
-    public String colored_bool_text(boolean org_bool) {
+    public static String colored_bool_text(boolean org_bool) {
         if (org_bool) {
             return "§aON";
         } else {
@@ -48,13 +48,13 @@ public class MainHackScreen extends Screen {
     protected void init() {
         addButton("Close", () -> Minecraft.getInstance().setScreen(null), 270, 350, 100, 20);
 
-        ButtonResponse toggleFly =      () -> ActiveHacks.hack_fly = !ActiveHacks.hack_fly;
-        ButtonResponse toggleNoGrav =   () -> ActiveHacks.hack_no_gravity = !ActiveHacks.hack_no_gravity;
-        ButtonResponse toggleNoInvis =  () -> ActiveHacks.hack_invisibility_bypass = !ActiveHacks.hack_invisibility_bypass;
+        ButtonResponse toggleFly =      () -> Hacks.hack_fly = !Hacks.hack_fly;
+        ButtonResponse toggleNoGrav =   () -> Hacks.hack_no_gravity = !Hacks.hack_no_gravity;
+        ButtonResponse toggleNoInvis =  () -> Hacks.hack_invisibility_bypass = !Hacks.hack_invisibility_bypass;
 
-        addSmartButton("Fly: ",                 ActiveHacks.hack_fly,                   toggleFly,      0);
-        addSmartButton("Zero Gravity: ",        ActiveHacks.hack_no_gravity,            toggleNoGrav,   1);
-        addSmartButton("Invisibility-Bypass: ", ActiveHacks.hack_invisibility_bypass,   toggleNoInvis,  2);
+        addSmartButton("Fly: ",                 Hacks.hack_fly,                   toggleFly,      0);
+        addSmartButton("Zero Gravity: ",        Hacks.hack_no_gravity,            toggleNoGrav,   1);
+        addSmartButton("Invisibility-Bypass: ", Hacks.hack_invisibility_bypass,   toggleNoInvis,  2);
     }
 
     @Override

@@ -3,7 +3,6 @@ package Kilip1000.deep_fried_client;
 import Kilip1000.deep_fried_client.screens.MainHackScreen;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.client.KeyMapping.Category;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -48,8 +47,10 @@ public class DeepFriedClientClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         MC = Minecraft.getInstance();
-
         registerKeybind("open", false, () -> Minecraft.getInstance().setScreen(new MainHackScreen()), GLFW.GLFW_KEY_RIGHT_SHIFT);
+        registerKeybind("hack_fly", false, () -> Hacks.toggleHack(Hacks.Hack.FLY), InputConstants.UNKNOWN.getValue());
+        registerKeybind("hack_no_gravity", false, () -> Hacks.toggleHack(Hacks.Hack.NO_GRAVITY), InputConstants.UNKNOWN.getValue());
+        registerKeybind("hack_invisibility_bypass", false, () -> Hacks.toggleHack(Hacks.Hack.INVISIBILITY_BYPASS), InputConstants.UNKNOWN.getValue());
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             var player = MC.player;
@@ -73,7 +74,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
             boolean isSpectator = gameMode == GameType.SPECTATOR;
             boolean inValidGameMode = !(isCreative || isSpectator);
 
-            if (ActiveHacks.hack_fly && inValidGameMode){
+            if (Hacks.hack_fly && inValidGameMode){
                 assert MC.player != null;
                 Vec3 movement_motion = new Vec3(0, 0, 0);
                 Vec2 rotation = MC.player.getRotationVector();
@@ -99,7 +100,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
             }
 
 
-            if (ActiveHacks.hack_no_gravity) {
+            if (Hacks.hack_no_gravity) {
                 PlayerMovementUtils.applyMotion(0, -motion.y, 0);
             }
         });

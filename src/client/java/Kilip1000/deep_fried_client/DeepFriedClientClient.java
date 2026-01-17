@@ -61,11 +61,11 @@ public class DeepFriedClientClient implements ClientModInitializer {
             boolean inValidGameMode = !(isCreative || isSpectator);
 
             if (ActiveHacks.hack_fly && jump && inValidGameMode) {
-                PlayerMovementUtils.applyMotion(0, 1, 0);
+                PlayerMovementUtils.setMotion(motion.x, 1, motion.z);
             }
 
             if (ActiveHacks.hack_fly && shift && inValidGameMode) {
-                PlayerMovementUtils.applyMotion(0, -1, 0);
+                PlayerMovementUtils.setMotion(motion.x, -1, motion.z);
             }
 
             if (ActiveHacks.hack_no_gravity || (ActiveHacks.hack_fly && !(shift || jump))) {

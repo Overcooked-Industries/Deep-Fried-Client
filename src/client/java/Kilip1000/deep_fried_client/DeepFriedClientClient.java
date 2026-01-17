@@ -20,21 +20,22 @@ import static Kilip1000.deep_fried_client.DeepFriedClient.LOGGER;
 
 public class DeepFriedClientClient implements ClientModInitializer {
     private static final List<KeyInformation> keyInformations = new ArrayList<>();
-    private static final KeyInformation KEY_OPEN = register_keybind("open", false, () -> Minecraft.getInstance().setScreen(new MainHackScreen(Component.empty())));
+    private static final KeyInformation KEY_OPEN = register_keybind("open", false, () -> Minecraft.getInstance().setScreen(new MainHackScreen(Component.empty())), GLFW.GLFW_KEY_RIGHT_SHIFT);
     public static Minecraft MC;
 
     public static boolean hack_fly = false;
     public static boolean hack_no_gravity = false;
+    public static boolean hack_invisibility_bypass = false;
 
     /**
      * @param use_mouse {@code false} to register a keyboard input, {@code true} to register a mouse input.
      */
-    public static KeyInformation register_keybind(String id, boolean use_mouse, KeyResponse response) {
+    public static KeyInformation register_keybind(String id, boolean use_mouse, KeyResponse response, int default_key) {
         KeyMapping.Category CATEGORY = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("deep_fried_client", "keybinds"));
         KeyMapping mapping = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 id + ".deep_fried_client",
                 use_mouse ? InputConstants.Type.MOUSE : InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_R,
+                default_key,
                 CATEGORY
         ));
         var keyMap = new KeyInformation(mapping, response);
@@ -66,13 +67,6 @@ public class DeepFriedClientClient implements ClientModInitializer {
 
             if (hack_no_gravity || (hack_fly && !(MC.options.keyShift.isDown() || MC.options.keyJump.isDown()))) {
                 PlayerMovementUtils.applyMotion(0, -motion.y, 0);
-            }
-
-            //DEBUG
-            for (var p: MC.level.players()){
-                if (p.getUUID() != MC.player.getUUID()){
-                    LOGGER.info(p.getPlainTextName() + ": " + p.position().toString());
-                }
             }
         });
 

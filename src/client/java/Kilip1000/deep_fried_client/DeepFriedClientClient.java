@@ -16,6 +16,8 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Kilip1000.deep_fried_client.DeepFriedClient.LOGGER;
+
 public class DeepFriedClientClient implements ClientModInitializer {
     private static final List<KeyInformation> keyInformations = new ArrayList<>();
     private static final KeyInformation KEY_OPEN = register_keybind("open", false, () -> Minecraft.getInstance().setScreen(new MainHackScreen(Component.empty())));
@@ -46,7 +48,6 @@ public class DeepFriedClientClient implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (MC.player == null) return;
-            
             Vec3 motion = MC.player.getDeltaMovement();
 
             for (var mapping : keyInformations) {
@@ -65,6 +66,13 @@ public class DeepFriedClientClient implements ClientModInitializer {
 
             if (hack_no_gravity || (hack_fly && !(MC.options.keyShift.isDown() || MC.options.keyJump.isDown()))) {
                 PlayerMovementUtils.applyMotion(0, -motion.y, 0);
+            }
+
+            //DEBUG
+            for (var p: MC.level.players()){
+                if (p.getUUID() != MC.player.getUUID()){
+                    LOGGER.info(p.getPlainTextName() + ": " + p.position().toString());
+                }
             }
         });
 

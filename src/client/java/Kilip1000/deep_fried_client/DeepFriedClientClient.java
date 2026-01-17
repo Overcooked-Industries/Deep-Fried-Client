@@ -3,6 +3,7 @@ package Kilip1000.deep_fried_client;
 import Kilip1000.deep_fried_client.screens.MainHackScreen;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.client.KeyMapping.Category;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -40,21 +41,15 @@ public class DeepFriedClientClient implements ClientModInitializer {
         return keyMap;
     }
 
+    public Vec2 getVecFromYaw(double yaw){
+        return new Vec2((float) -Math.sin(yaw * (Math.PI / 180)), (float) Math.cos(yaw * (Math.PI / 180)));
+    }
+
     @Override
     public void onInitializeClient() {
         MC = Minecraft.getInstance();
 
         registerKeybind("open", false, () -> Minecraft.getInstance().setScreen(new MainHackScreen()), GLFW.GLFW_KEY_RIGHT_SHIFT);
-        registerKeybind("debug", false, () -> {
-            assert MC.player != null;
-            Vec2 rotation = MC.player.getRotationVector();
-            //why the f- is y, the second component of the Vector, the yaw???
-            var z = Math.cos(rotation.y * (Math.PI / 180));
-            var x = -Math.sin(rotation.y * (Math.PI / 180));
-            LOGGER.info("X: {}", x);
-            LOGGER.info("Z: {}", z);
-
-        }, GLFW.GLFW_KEY_K);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             var player = MC.player;
@@ -79,15 +74,30 @@ public class DeepFriedClientClient implements ClientModInitializer {
             boolean inValidGameMode = !(isCreative || isSpectator);
 
             if (ActiveHacks.hack_fly && inValidGameMode){
-                PlayerMovementUtils.setMotion(0, 0, 0);
+                assert MC.player != null;
+                Vec3 movement_motion = new Vec3(0, 0, 0);
+                Vec2 rotation = MC.player.getRotationVector();
 
-                if (jump) {
-                    PlayerMovementUtils.setMotion(motion.x, 1, motion.z);
+                if (jump) {movement_motion = movement_motion.add(new Vec3(0, 1, 0));}
+                if (shift) {movement_motion = movement_motion.add(new Vec3(0, -1, 0));}
+
+                if (movement[0]){
+                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y).x, 0, getVecFromYaw(rotation.y).y));
                 }
-                if (shift) {
-                    PlayerMovementUtils.setMotion(motion.x, -1, motion.z);
+                if (movement[1]){
+                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y - 90).x, 0, getVecFromYaw(rotation.y - 90).y));
                 }
+                if (movement[2]){
+                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y + 180).x, 0, getVecFromYaw(rotation.y + 180).y));
+                }
+                if (movement[3]) {
+                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y + 90).x, 0, getVecFromYaw(rotation.y + 90).y));
+                }
+
+                LOGGER.info(String.valueOf(movement_motion));
+                PlayerMovementUtils.setMotion(movement_motion.x, movement_motion.y, movement_motion.z);
             }
+
 
             if (ActiveHacks.hack_no_gravity) {
                 PlayerMovementUtils.applyMotion(0, -motion.y, 0);

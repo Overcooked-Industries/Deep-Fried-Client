@@ -38,11 +38,15 @@ public class Hacks {
                 no_fall = !no_fall;
                 state = no_fall;
             }
+            case FREECAM -> {
+                freecam = !freecam;
+                state = freecam;
+            }
         }
 
         assert Minecraft.getInstance().player != null;
 
-        if(show_message) Minecraft.getInstance().player.displayClientMessage(Component.literal("§l" + hack.name + "§r§7 was toggled to " + MainHackScreen.colored_bool_text(state) + "§r§7!"), false);
+        if (show_message) Minecraft.getInstance().player.displayClientMessage(Component.literal("§l" + hack.name + "§r§7 was toggled to " + MainHackScreen.colored_bool_text(state) + "§r§7!"), false);
     }
 
     public static void toggleHack(Hack hack){
@@ -53,7 +57,8 @@ public class Hacks {
         FLY("Fly"),
         NO_GRAVITY("Zero Gravity"),
         INVISIBILITY_BYPASS("Invisibility Bypass"),
-        NO_FALL("No Fall");
+        NO_FALL("No Fall"),
+        FREECAM("Freecam");
 
         final String name;
 

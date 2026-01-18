@@ -1,8 +1,8 @@
 {
   "key.category.deep_fried_client.keybinds": "Deep Fried Client",
   "open.deep_fried_client": "Open Hack Menu",
-  "fly.deep_fried_client": "Toggle Fly",
-  "no_gravity.deep_fried_client": "Toggle No Gravity",
-  "invisibility_bypass.deep_fried_client": "Toggle Invisibility-Bypass",
-  "no_fall.deep_fried_client": "Toggle No Fall"
+  "hack_fly.deep_fried_client": "Toggle Fly",
+  "hack_no_gravity.deep_fried_client": "Toggle No Gravity",
+  "hack_invisibility_bypass.deep_fried_client": "Toggle Invisibility-Bypass",
+  "hack_no_fall.deep_fried_client": "Toggle No Fall"
 }

@@ -43,7 +43,7 @@ public abstract class DeepFriedScreen extends Screen {
 
     @Override
     public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
-        add_label(context, "Deep Fried Client", 40, 40);
+        add_label(context, "", 40, 40);
         super.render(context, mouseX, mouseY, delta);
     }
 

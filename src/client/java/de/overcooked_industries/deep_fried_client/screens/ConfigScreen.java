@@ -13,6 +13,12 @@ public class ConfigScreen extends DeepFriedScreen {
     }
 
     @Override
+    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+        add_label(context, "§7Deep Fried Client§l/§r§fConfig", 40, 40);
+        super.render(context, mouseX, mouseY, delta);
+    }
+
+    @Override
     protected void init() {
         addButton("Back", () -> Minecraft.getInstance().setScreen(new MainHackScreen()), 270, 300, 100, 20);
 

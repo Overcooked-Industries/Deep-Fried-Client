@@ -13,6 +13,12 @@ public class MainHackScreen extends DeepFriedScreen {
     }
 
     @Override
+    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+        add_label(context, "§fDeep Fried Client", 40, 40);
+        super.render(context, mouseX, mouseY, delta);
+    }
+
+    @Override
     protected void init() {
         addButton("Close", () -> Minecraft.getInstance().setScreen(null), 270, 300, 100, 20);
         addButton("Config",  () -> Minecraft.getInstance().setScreen(new ConfigScreen()), 500, 300, 20, 20);

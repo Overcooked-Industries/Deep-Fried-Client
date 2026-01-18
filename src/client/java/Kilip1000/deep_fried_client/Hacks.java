@@ -29,16 +29,17 @@ public class Hacks {
             case NO_FALL -> state = hack_no_fall;
         }
 
+        assert Minecraft.getInstance().player != null;
         Minecraft.getInstance().player.displayClientMessage(Component.literal("§l" + hack.name + "§r§7 was toggled to " + MainHackScreen.colored_bool_text(state) + "§r§7!"), false);
     }
 
-    enum Hack{
+    public enum Hack{
         FLY("Fly"),
         NO_GRAVITY("Zero Gravity"),
         INVISIBILITY_BYPASS("Invisibility Bypass"),
         NO_FALL("No Fall");
 
-        String name;
+        final String name;
 
         Hack(String name) {
             this.name = name;

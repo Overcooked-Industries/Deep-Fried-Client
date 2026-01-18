@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeepFriedClientClient implements ClientModInitializer {
-    private static final List<KeyInformation> keyInformation = new ArrayList<>();
+    public static final List<KeyInformation> keyInformation = new ArrayList<>();
     public static Category CATEGORY = KeyMapping.Category.register(DeepFriedClient.id("keybinds"));
     public static Minecraft MC;
 

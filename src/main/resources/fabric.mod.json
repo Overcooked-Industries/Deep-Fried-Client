@@ -3,15 +3,13 @@
 	"id": "deep_fried_client",
 	"version": "${version}",
 	"name": "Deep Fried Client",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Creating a Minecraft Hack Client is very fun! :)",
 	"authors": [
-		"Me!"
+		"§lOvercooked Industries§r:",
+		"Kilip1000",
+		"FriedBacon0"
 	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
-	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/deep_fried_client/icon.png",
 	"environment": "*",
 	"entrypoints": {

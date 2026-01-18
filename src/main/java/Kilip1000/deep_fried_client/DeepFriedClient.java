@@ -1,4 +1,4 @@
-package de.deep_fried_client;
+package Kilip1000.deep_fried_client;
 
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.Identifier;

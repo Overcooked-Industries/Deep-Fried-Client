@@ -1,6 +1,6 @@
-package de.deep_fried_client.mixin.client;
+package Kilip1000.deep_fried_client.mixin.client;
 
-import de.deep_fried_client.Hacks;
+import Kilip1000.deep_fried_client.Hacks;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;

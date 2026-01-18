@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "de.deep_fried_client.mixin.client",
+  "package": "Kilip1000.deep_fried_client.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
     "EntityRendererMixin"

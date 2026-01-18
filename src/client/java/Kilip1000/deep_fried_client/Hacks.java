@@ -1,6 +1,6 @@
-package de.deep_fried_client;
+package Kilip1000.deep_fried_client;
 
-import de.deep_fried_client.screens.MainHackScreen;
+import Kilip1000.deep_fried_client.screens.MainHackScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 

@@ -2,6 +2,7 @@ package de.overcooked_industries.deep_fried_client;
 
 import de.overcooked_industries.deep_fried_client.screens.MainHackScreen;
 import static de.overcooked_industries.deep_fried_client.Hacks.Hack.*;
+import static de.overcooked_industries.deep_fried_client.Hacks.Hack;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.Camera;
@@ -40,7 +41,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
         keyInformation.add(keyMap);
     }
 
-    public static void registerHackKeybind(String id, Hacks.Hack hack) {
+    public static void registerHackKeybind(String id, Hack hack) {
         registerKeybind("hack_" + id, false, () -> Hacks.toggleHack(hack), -1);
     }
 

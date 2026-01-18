@@ -21,6 +21,18 @@ public abstract class DeepFriedScreen extends Screen {
         this.addRenderableWidget(buttonWidget);
     }
 
+    public void addSlider(String title, int pos_x, int pos_y, int size_x, int size_y) {
+        Slider sliderWidget = new Slider(
+                pos_x,
+                pos_y,
+                size_x,
+                size_y,
+                title,
+                1
+        );
+        this.addRenderableWidget(sliderWidget);
+    }
+
     public void add_label(GuiGraphics context, String title, int pos_x, int pos_y) {
         context.drawString(this.font, title, pos_x, pos_y - this.font.lineHeight - 10, 0xFFFFFFFF, true);
     }

@@ -9,7 +9,6 @@ public class Hacks {
     public static boolean no_gravity = false;
     public static boolean invisibility_bypass = false;
     public static boolean no_fall = false;
-    public static boolean freecam = false;
 
     public static int hack_cooldown = 0;
 
@@ -26,7 +25,6 @@ public class Hacks {
             case NO_GRAVITY ->          { no_gravity =          !no_gravity;          state = no_gravity;          }
             case INVISIBILITY_BYPASS -> { invisibility_bypass = !invisibility_bypass; state = invisibility_bypass; }
             case NO_FALL ->             { no_fall =             !no_fall;             state = no_fall;             }
-            case FREECAM ->             { freecam =             !freecam;             state = freecam;             }
         }
 
         assert Minecraft.getInstance().player != null;
@@ -42,8 +40,7 @@ public class Hacks {
         FLY("Fly"),
         NO_GRAVITY("Zero Gravity"),
         INVISIBILITY_BYPASS("Invisibility Bypass"),
-        NO_FALL("No Fall"),
-        FREECAM("Freecam");
+        NO_FALL("No Fall");
 
         final String name;
 

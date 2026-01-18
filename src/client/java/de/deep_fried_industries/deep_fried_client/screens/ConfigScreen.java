@@ -1,23 +1,15 @@
-package Kilip1000.deep_fried_client.screens;
+package de.deep_fried_industries.deep_fried_client.screens;
 
-import Kilip1000.deep_fried_client.Hacks;
+import de.deep_fried_industries.deep_fried_client.Hacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-public class MainHackScreen extends Screen {
-    public MainHackScreen() {
+public class ConfigScreen extends Screen {
+    public ConfigScreen() {
         super(Component.empty());
-    }
-
-    public static String colored_bool_text(boolean org_bool) {
-        if (org_bool) {
-            return "§aON";
-        } else {
-            return "§4OFF";
-        }
     }
 
     public void reload() {
@@ -36,7 +28,7 @@ public class MainHackScreen extends Screen {
     }
 
     public void addSmartButton(String title, boolean hack, ButtonResponse func, int offset) {
-        Button buttonWidget = Button.builder(Component.nullToEmpty(title + colored_bool_text(hack)), (btn) -> {
+        Button buttonWidget = Button.builder(Component.nullToEmpty(title + MainHackScreen.colored_bool_text(hack)), (btn) -> {
             func.respond();
             reload();
         }).bounds(40, 75 + offset * 25, 150, 20).build();
@@ -45,15 +37,14 @@ public class MainHackScreen extends Screen {
 
     @Override
     protected void init() {
-        addButton("Close", () -> Minecraft.getInstance().setScreen(null), 270, 300, 100, 20);
-        addButton("Config",  () -> Minecraft.getInstance().setScreen(new ConfigScreen()), 500, 300, 20, 20);
+        addButton("Back", () -> Minecraft.getInstance().setScreen(new MainHackScreen()), 270, 300, 100, 20);
 
-        ButtonResponse toggleFly =                 () -> Hacks.hack_fly = !Hacks.hack_fly;
+        ButtonResponse toggleFly =                 () -> Hacks.fly = !Hacks.fly;
         ButtonResponse toggleNoGravity =           () -> Hacks.no_gravity = !Hacks.no_gravity;
         ButtonResponse toggleInvisibilityBypass =  () -> Hacks.invisibility_bypass = !Hacks.invisibility_bypass;
         ButtonResponse toggleNoFall =              () -> Hacks.no_fall = !Hacks.no_fall;
 
-        addSmartButton("Fly: ",                 Hacks.hack_fly,                   toggleFly,                 0);
+        addSmartButton("Fly: ",                 Hacks.fly,                   toggleFly,                 0);
         addSmartButton("Zero Gravity: ",        Hacks.no_gravity,            toggleNoGravity,           1);
         addSmartButton("Invisibility-Bypass: ", Hacks.invisibility_bypass,   toggleInvisibilityBypass,  2);
         addSmartButton("No Fall: ",             Hacks.no_fall,               toggleNoFall,              3);

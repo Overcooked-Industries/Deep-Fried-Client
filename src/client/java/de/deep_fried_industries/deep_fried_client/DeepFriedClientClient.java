@@ -1,6 +1,6 @@
-package Kilip1000.deep_fried_client;
+package de.deep_fried_industries.deep_fried_client;
 
-import Kilip1000.deep_fried_client.screens.MainHackScreen;
+import de.deep_fried_industries.deep_fried_client.screens.MainHackScreen;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.KeyMapping.Category;
@@ -76,7 +76,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
             boolean isSpectator = gameMode == GameType.SPECTATOR;
             boolean inValidGameMode = !(isCreative || isSpectator);
 
-            if (Hacks.hack_fly && inValidGameMode){
+            if (Hacks.fly && inValidGameMode){
                 assert MC.player != null;
                 Vec3 movement_motion = new Vec3(0, 0, 0);
                 Vec2 rotation = MC.player.getRotationVector();

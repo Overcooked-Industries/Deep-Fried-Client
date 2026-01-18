@@ -22,26 +22,11 @@ public class Hacks {
 
         boolean state = false;
         switch (hack) {
-            case FLY -> {
-                fly = !fly;
-                state = fly;
-            }
-            case NO_GRAVITY -> {
-                no_gravity = !no_gravity;
-                state = no_gravity;
-            }
-            case INVISIBILITY_BYPASS -> {
-                invisibility_bypass = !invisibility_bypass;
-                state = invisibility_bypass;
-            }
-            case NO_FALL -> {
-                no_fall = !no_fall;
-                state = no_fall;
-            }
-            case FREECAM -> {
-                freecam = !freecam;
-                state = freecam;
-            }
+            case FLY ->                 { fly =                 !fly;                 state = fly;                 }
+            case NO_GRAVITY ->          { no_gravity =          !no_gravity;          state = no_gravity;          }
+            case INVISIBILITY_BYPASS -> { invisibility_bypass = !invisibility_bypass; state = invisibility_bypass; }
+            case NO_FALL ->             { no_fall =             !no_fall;             state = no_fall;             }
+            case FREECAM ->             { freecam =             !freecam;             state = freecam;             }
         }
 
         assert Minecraft.getInstance().player != null;

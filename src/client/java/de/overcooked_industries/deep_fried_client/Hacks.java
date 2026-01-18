@@ -9,7 +9,7 @@ public class Hacks {
     public static boolean no_gravity = false;
     public static boolean invisibility_bypass = false;
     public static boolean no_fall = false;
-    public static boolean free_cam = false;
+    public static boolean freecam = false;
 
     public static int hack_cooldown = 0;
 

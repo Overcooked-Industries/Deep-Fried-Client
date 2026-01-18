@@ -52,11 +52,13 @@ public class MainHackScreen extends Screen {
         ButtonResponse toggleNoGravity =           () -> Hacks.no_gravity = !Hacks.no_gravity;
         ButtonResponse toggleInvisibilityBypass =  () -> Hacks.invisibility_bypass = !Hacks.invisibility_bypass;
         ButtonResponse toggleNoFall =              () -> Hacks.no_fall = !Hacks.no_fall;
+        ButtonResponse toggleFreecam =              () -> Hacks.freecam = !Hacks.freecam;
 
         addSmartButton("Fly: ",                 Hacks.fly,                   toggleFly,                 0);
         addSmartButton("Zero Gravity: ",        Hacks.no_gravity,            toggleNoGravity,           1);
         addSmartButton("Invisibility-Bypass: ", Hacks.invisibility_bypass,   toggleInvisibilityBypass,  2);
         addSmartButton("No Fall: ",             Hacks.no_fall,               toggleNoFall,              3);
+        addSmartButton("Freecam: ",             Hacks.freecam,               toggleFreecam,              4);
     }
 
     @Override

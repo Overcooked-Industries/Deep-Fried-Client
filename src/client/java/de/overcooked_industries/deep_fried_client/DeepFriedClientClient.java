@@ -3,6 +3,7 @@ package de.overcooked_industries.deep_fried_client;
 import de.overcooked_industries.deep_fried_client.screens.MainHackScreen;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
+import net.minecraft.client.Camera;
 import net.minecraft.client.KeyMapping.Category;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -105,9 +106,12 @@ public class DeepFriedClientClient implements ClientModInitializer {
                         .send(new ServerboundMovePlayerPacket.StatusOnly(true, MC.player.horizontalCollision));
             }
 
-
             if (Hacks.no_gravity) {
                 PlayerMovementUtils.applyMotion(0, -motion.y, 0);
+            }
+
+            if (Hacks.freecam) {
+                new Camera();
             }
         });
 

@@ -100,13 +100,13 @@ public class DeepFriedClientClient implements ClientModInitializer {
                 PlayerMovementUtils.setMotion(movement_motion.x, movement_motion.y, movement_motion.z);
             }
 
-            if (Hacks.hack_no_fall){
+            if (Hacks.no_fall){
                 player.connection
                         .send(new ServerboundMovePlayerPacket.StatusOnly(true, MC.player.horizontalCollision));
             }
 
 
-            if (Hacks.hack_no_gravity) {
+            if (Hacks.no_gravity) {
                 PlayerMovementUtils.applyMotion(0, -motion.y, 0);
             }
         });

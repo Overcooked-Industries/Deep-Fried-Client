@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class EntityRendererMixin {
     @Redirect(method = "extractRenderState", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInvisible()Z"))
     boolean alwaysVisiblePlayer(Entity instance){
-        if(instance instanceof Player) return !Hacks.hack_invisibility_bypass && instance.isInvisible();
+        if(instance instanceof Player) return !Hacks.invisibility_bypass && instance.isInvisible();
         return instance.isInvisible();
     }
 }

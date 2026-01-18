@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.data.Main;
 import net.minecraft.network.chat.Component;
 
 public class ConfigScreen extends Screen {
@@ -41,14 +40,14 @@ public class ConfigScreen extends Screen {
         addButton("Back", () -> Minecraft.getInstance().setScreen(new MainHackScreen()), 270, 300, 100, 20);
 
         ButtonResponse toggleFly =                 () -> Hacks.hack_fly = !Hacks.hack_fly;
-        ButtonResponse toggleNoGravity =           () -> Hacks.hack_no_gravity = !Hacks.hack_no_gravity;
-        ButtonResponse toggleInvisibilityBypass =  () -> Hacks.hack_invisibility_bypass = !Hacks.hack_invisibility_bypass;
-        ButtonResponse toggleNoFall =              () -> Hacks.hack_no_fall = !Hacks.hack_no_fall;
+        ButtonResponse toggleNoGravity =           () -> Hacks.no_gravity = !Hacks.no_gravity;
+        ButtonResponse toggleInvisibilityBypass =  () -> Hacks.invisibility_bypass = !Hacks.invisibility_bypass;
+        ButtonResponse toggleNoFall =              () -> Hacks.no_fall = !Hacks.no_fall;
 
         addSmartButton("Fly: ",                 Hacks.hack_fly,                   toggleFly,                 0);
-        addSmartButton("Zero Gravity: ",        Hacks.hack_no_gravity,            toggleNoGravity,           1);
-        addSmartButton("Invisibility-Bypass: ", Hacks.hack_invisibility_bypass,   toggleInvisibilityBypass,  2);
-        addSmartButton("No Fall: ",             Hacks.hack_no_fall,               toggleNoFall,              3);
+        addSmartButton("Zero Gravity: ",        Hacks.no_gravity,            toggleNoGravity,           1);
+        addSmartButton("Invisibility-Bypass: ", Hacks.invisibility_bypass,   toggleInvisibilityBypass,  2);
+        addSmartButton("No Fall: ",             Hacks.no_fall,               toggleNoFall,              3);
     }
 
     @Override

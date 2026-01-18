@@ -1,6 +1,6 @@
-package de.deep_fried_industries.deep_fried_client;
+package de.overcooked_industries.deep_fried_client;
 
-import de.deep_fried_industries.deep_fried_client.screens.MainHackScreen;
+import de.overcooked_industries.deep_fried_client.screens.MainHackScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 

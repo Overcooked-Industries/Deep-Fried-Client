@@ -1,9 +1,9 @@
-package de.deep_fried_industries.deep_fried_client;
+package de.overcooked_industries.deep_fried_client;
 
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.phys.Vec3;
 
-import static de.deep_fried_industries.deep_fried_client.DeepFriedClientClient.MC;
+import static de.overcooked_industries.deep_fried_client.DeepFriedClientClient.MC;
 
 public class PlayerMovementUtils {
 

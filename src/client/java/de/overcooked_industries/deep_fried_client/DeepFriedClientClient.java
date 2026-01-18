@@ -1,6 +1,6 @@
-package de.deep_fried_industries.deep_fried_client;
+package de.overcooked_industries.deep_fried_client;
 
-import de.deep_fried_industries.deep_fried_client.screens.MainHackScreen;
+import de.overcooked_industries.deep_fried_client.screens.MainHackScreen;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.KeyMapping.Category;

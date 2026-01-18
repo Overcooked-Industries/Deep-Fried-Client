@@ -1,4 +1,4 @@
-package de.deep_fried_industries.deep_fried_client;
+package de.overcooked_industries.deep_fried_client;
 
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.Identifier;

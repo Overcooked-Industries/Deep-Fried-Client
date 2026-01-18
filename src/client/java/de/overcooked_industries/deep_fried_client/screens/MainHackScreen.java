@@ -1,15 +1,23 @@
-package de.deep_fried_industries.deep_fried_client.screens;
+package de.overcooked_industries.deep_fried_client.screens;
 
-import de.deep_fried_industries.deep_fried_client.Hacks;
+import de.overcooked_industries.deep_fried_client.Hacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-public class ConfigScreen extends Screen {
-    public ConfigScreen() {
+public class MainHackScreen extends Screen {
+    public MainHackScreen() {
         super(Component.empty());
+    }
+
+    public static String colored_bool_text(boolean org_bool) {
+        if (org_bool) {
+            return "§aON";
+        } else {
+            return "§4OFF";
+        }
     }
 
     public void reload() {
@@ -28,7 +36,7 @@ public class ConfigScreen extends Screen {
     }
 
     public void addSmartButton(String title, boolean hack, ButtonResponse func, int offset) {
-        Button buttonWidget = Button.builder(Component.nullToEmpty(title + MainHackScreen.colored_bool_text(hack)), (btn) -> {
+        Button buttonWidget = Button.builder(Component.nullToEmpty(title + colored_bool_text(hack)), (btn) -> {
             func.respond();
             reload();
         }).bounds(40, 75 + offset * 25, 150, 20).build();
@@ -37,7 +45,8 @@ public class ConfigScreen extends Screen {
 
     @Override
     protected void init() {
-        addButton("Back", () -> Minecraft.getInstance().setScreen(new MainHackScreen()), 270, 300, 100, 20);
+        addButton("Close", () -> Minecraft.getInstance().setScreen(null), 270, 300, 100, 20);
+        addButton("Config",  () -> Minecraft.getInstance().setScreen(new ConfigScreen()), 500, 300, 20, 20);
 
         ButtonResponse toggleFly =                 () -> Hacks.fly = !Hacks.fly;
         ButtonResponse toggleNoGravity =           () -> Hacks.no_gravity = !Hacks.no_gravity;

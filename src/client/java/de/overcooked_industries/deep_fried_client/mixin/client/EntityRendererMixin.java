@@ -1,6 +1,6 @@
-package de.deep_fried_industries.deep_fried_client.mixin.client;
+package de.overcooked_industries.deep_fried_client.mixin.client;
 
-import de.deep_fried_industries.deep_fried_client.Hacks;
+import de.overcooked_industries.deep_fried_client.Hacks;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;

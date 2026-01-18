@@ -27,7 +27,6 @@ public class MainHackScreen extends Screen {
     public void addButton(String title, ButtonResponse func, int pos_x, int pos_y, int size_x, int size_y) {
         Button buttonWidget = Button.builder(Component.nullToEmpty(title), (btn) -> {
             func.respond();
-            reload();
         }).bounds(pos_x, pos_y, size_x, size_y).build();
         this.addRenderableWidget(buttonWidget);
     }
@@ -46,7 +45,8 @@ public class MainHackScreen extends Screen {
 
     @Override
     protected void init() {
-        addButton("Close", () -> Minecraft.getInstance().setScreen(null), 270, 350, 100, 20);
+        addButton("Close", () -> Minecraft.getInstance().setScreen(null), 270, 300, 100, 20);
+        addButton("Config",  () -> Minecraft.getInstance().setScreen(null), 500, 300, 100, 20);
 
         ButtonResponse toggleFly =                 () -> Hacks.hack_fly = !Hacks.hack_fly;
         ButtonResponse toggleNoGravity =           () -> Hacks.hack_no_gravity = !Hacks.hack_no_gravity;

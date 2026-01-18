@@ -2,11 +2,10 @@ package de.overcooked_industries.deep_fried_client;
 
 import de.overcooked_industries.deep_fried_client.screens.MainHackScreen;
 import static de.overcooked_industries.deep_fried_client.Hacks.Hack.*;
-import static de.overcooked_industries.deep_fried_client.Hacks.Hack;
+import static de.overcooked_industries.deep_fried_client.Hacks.*;
+
 import com.mojang.blaze3d.platform.InputConstants;
-import de.overcooked_industries.deep_fried_client.screens.Slider;
 import net.fabricmc.api.ClientModInitializer;
-import static de.overcooked_industries.deep_fried_client.DeepFriedClient.LOGGER;
 import net.minecraft.client.KeyMapping.Category;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -61,11 +60,10 @@ public class DeepFriedClientClient implements ClientModInitializer {
         registerHackKeybind("no_fall", NO_FALL);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (Hacks.hack_cooldown > 0) Hacks.hack_cooldown -= 1;
-
             var player = MC.player;
             if (player == null) return;
-            Vec3 motion = player.getDeltaMovement();
+
+            if (hack_cooldown > 0) hack_cooldown -= 1;
 
             for (var mapping : keyInformation) {
                 if (mapping.keyMappings.isDown()) {
@@ -73,48 +71,39 @@ public class DeepFriedClientClient implements ClientModInitializer {
                 }
             }
 
+            var options = MC.options;
 
-            boolean jump = MC.options.keyJump.isDown();
-            boolean shift = MC.options.keyShift.isDown();
+            boolean jump =  options.keyJump.isDown();
+            boolean shift = options.keyShift.isDown();
 
-            var movement = new boolean[]{
-                    MC.options.keyUp.isDown(),
-                    MC.options.keyLeft.isDown(),
-                    MC.options.keyDown.isDown(),
-                    MC.options.keyRight.isDown()
-            };
+            var up =    options.keyUp.isDown();
+            var left =  options.keyLeft.isDown();
+            var down =  options.keyDown.isDown();
+            var right = options.keyRight.isDown();
 
             GameType gameMode = player.gameMode();
             boolean isCreative = gameMode == GameType.CREATIVE;
             boolean isSpectator = gameMode == GameType.SPECTATOR;
             boolean inValidGameMode = !(isCreative || isSpectator);
 
-            if (Hacks.fly && inValidGameMode){
-                assert MC.player != null;
+            if (fly && inValidGameMode){
                 Vec3 movement_motion = new Vec3(0, 0, 0);
-                Vec2 rotation = MC.player.getRotationVector();
+                Vec2 rotation = player.getRotationVector();
 
-                if (jump) {movement_motion = movement_motion.add(new Vec3(0, 1, 0));}
-                if (shift) {movement_motion = movement_motion.add(new Vec3(0, -1, 0));}
+                if (jump)  movement_motion = movement_motion.add(new Vec3(0, 1, 0));
+                if (shift) movement_motion = movement_motion.add(new Vec3(0, -1, 0));
 
-                if (movement[0]){
-                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y).x, 0, getVecFromYaw(rotation.y).y));
-                }
-                if (movement[1]){
-                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y - 90).x, 0, getVecFromYaw(rotation.y - 90).y));
-                }
-                if (movement[2]){
-                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y + 180).x, 0, getVecFromYaw(rotation.y + 180).y));
-                }
-                if (movement[3]) {
-                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y + 90).x, 0, getVecFromYaw(rotation.y + 90).y));
-                }
+                if (up)    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y).x, 0, getVecFromYaw(rotation.y).y));
+                if (down)  movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y + 180).x, 0, getVecFromYaw(rotation.y + 180).y));
+                if (left)  movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y - 90).x, 0, getVecFromYaw(rotation.y - 90).y));
+                if (right) movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y + 90).x, 0, getVecFromYaw(rotation.y + 90).y));
 
-                PlayerMovementUtils.setMotion(movement_motion.x, movement_motion.y, movement_motion.z);
+                PlayerMovementUtils.setDeltaMovement(movement_motion);
             }
 
-            if (Hacks.no_fall) player.connection.send(new ServerboundMovePlayerPacket.StatusOnly(true, MC.player.horizontalCollision));
-            if (Hacks.no_gravity) PlayerMovementUtils.applyMotion(0, -motion.y, 0);
+            Vec3 motion = player.getDeltaMovement();
+            if (no_fall)    player.connection.send(new ServerboundMovePlayerPacket.StatusOnly(true, MC.player.horizontalCollision));
+            if (no_gravity) PlayerMovementUtils.applyMotion(0, -motion.y, 0);
         });
 
     }

@@ -1,6 +1,7 @@
 package de.overcooked_industries.deep_fried_client;
 
 import de.overcooked_industries.deep_fried_client.screens.MainHackScreen;
+import static de.overcooked_industries.deep_fried_client.Hacks.Hack.*;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.Camera;
@@ -26,7 +27,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
     /**
      * @param use_mouse {@code false} to register a keyboard input, {@code true} to register a mouse input.
      */
-    public static KeyInformation registerKeybind(String id, boolean use_mouse, KeyResponse response, int default_key) {
+    public static void registerKeybind(String id, boolean use_mouse, KeyResponse response, int default_key) {
         KeyMapping mapping = KeyBindingHelper.registerKeyBinding(
             new KeyMapping(
                 id + ".deep_fried_client",
@@ -37,7 +38,10 @@ public class DeepFriedClientClient implements ClientModInitializer {
         );
         var keyMap = new KeyInformation(mapping, response);
         keyInformation.add(keyMap);
-        return keyMap;
+    }
+
+    public static void registerHackKeybind(String id, Hacks.Hack hack) {
+        registerKeybind("hack_" + id, false, () -> Hacks.toggleHack(hack), -1);
     }
 
     public Vec2 getVecFromYaw(double yaw){
@@ -48,10 +52,11 @@ public class DeepFriedClientClient implements ClientModInitializer {
     public void onInitializeClient() {
         MC = Minecraft.getInstance();
         registerKeybind("open", false, () -> Minecraft.getInstance().setScreen(new MainHackScreen()), GLFW.GLFW_KEY_RIGHT_SHIFT);
-        registerKeybind("hack_fly", false, () -> Hacks.toggleHack(Hacks.Hack.FLY), -1);
-        registerKeybind("hack_no_gravity", false, () -> Hacks.toggleHack(Hacks.Hack.NO_GRAVITY), -1);
-        registerKeybind("hack_invisibility_bypass", false, () -> Hacks.toggleHack(Hacks.Hack.INVISIBILITY_BYPASS), -1);
-        registerKeybind("hack_no_fall", false, () -> Hacks.toggleHack(Hacks.Hack.NO_FALL), -1);
+
+        registerHackKeybind("fly", FLY);
+        registerHackKeybind("no_gravity", NO_GRAVITY);
+        registerHackKeybind("invisibility_bypass", INVISIBILITY_BYPASS);
+        registerHackKeybind("no_fall", NO_FALL);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (Hacks.hack_cooldown > 0) Hacks.hack_cooldown -= 1;
@@ -70,7 +75,12 @@ public class DeepFriedClientClient implements ClientModInitializer {
             boolean jump = MC.options.keyJump.isDown();
             boolean shift = MC.options.keyShift.isDown();
 
-            var movement = new boolean[]{MC.options.keyUp.isDown(), MC.options.keyLeft.isDown(), MC.options.keyDown.isDown(), MC.options.keyRight.isDown()};
+            var movement = new boolean[]{
+                    MC.options.keyUp.isDown(),
+                    MC.options.keyLeft.isDown(),
+                    MC.options.keyDown.isDown(),
+                    MC.options.keyRight.isDown()
+            };
 
             GameType gameMode = player.gameMode();
             boolean isCreative = gameMode == GameType.CREATIVE;

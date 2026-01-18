@@ -49,6 +49,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
         registerKeybind("hack_fly", false, () -> Hacks.toggleHack(Hacks.Hack.FLY), -1);
         registerKeybind("hack_no_gravity", false, () -> Hacks.toggleHack(Hacks.Hack.NO_GRAVITY), -1);
         registerKeybind("hack_invisibility_bypass", false, () -> Hacks.toggleHack(Hacks.Hack.INVISIBILITY_BYPASS), -1);
+        registerKeybind("hack_no_fall", false, () -> Hacks.toggleHack(Hacks.Hack.NO_FALL), -1);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (Hacks.hack_cooldown > 0) Hacks.hack_cooldown -= 1;

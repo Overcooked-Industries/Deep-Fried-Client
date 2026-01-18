@@ -48,13 +48,15 @@ public class MainHackScreen extends Screen {
     protected void init() {
         addButton("Close", () -> Minecraft.getInstance().setScreen(null), 270, 350, 100, 20);
 
-        ButtonResponse toggleFly =      () -> Hacks.hack_fly = !Hacks.hack_fly;
-        ButtonResponse toggleNoGrav =   () -> Hacks.hack_no_gravity = !Hacks.hack_no_gravity;
-        ButtonResponse toggleNoInvis =  () -> Hacks.hack_invisibility_bypass = !Hacks.hack_invisibility_bypass;
+        ButtonResponse toggleFly =                 () -> Hacks.hack_fly = !Hacks.hack_fly;
+        ButtonResponse toggleNoGravity =           () -> Hacks.hack_no_gravity = !Hacks.hack_no_gravity;
+        ButtonResponse toggleInvisibilityBypass =  () -> Hacks.hack_invisibility_bypass = !Hacks.hack_invisibility_bypass;
+        ButtonResponse toggleNoFall =              () -> Hacks.hack_no_fall = !Hacks.hack_no_fall;
 
-        addSmartButton("Fly: ",                 Hacks.hack_fly,                   toggleFly,      0);
-        addSmartButton("Zero Gravity: ",        Hacks.hack_no_gravity,            toggleNoGrav,   1);
-        addSmartButton("Invisibility-Bypass: ", Hacks.hack_invisibility_bypass,   toggleNoInvis,  2);
+        addSmartButton("Fly: ",                 Hacks.hack_fly,                   toggleFly,                 0);
+        addSmartButton("Zero Gravity: ",        Hacks.hack_no_gravity,            toggleNoGravity,           1);
+        addSmartButton("Invisibility-Bypass: ", Hacks.hack_invisibility_bypass,   toggleInvisibilityBypass,  2);
+        addSmartButton("No Fall: ",             Hacks.hack_no_fall,               toggleNoFall,              3);
     }
 
     @Override

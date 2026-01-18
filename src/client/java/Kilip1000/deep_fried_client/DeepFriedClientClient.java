@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
@@ -97,6 +98,11 @@ public class DeepFriedClientClient implements ClientModInitializer {
                 }
 
                 PlayerMovementUtils.setMotion(movement_motion.x, movement_motion.y, movement_motion.z);
+            }
+
+            if (Hacks.hack_no_fall){
+                player.connection
+                        .send(new ServerboundMovePlayerPacket.StatusOnly(true, MC.player.horizontalCollision));
             }
 
 

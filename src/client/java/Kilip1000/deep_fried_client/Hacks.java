@@ -29,7 +29,7 @@ public class Hacks {
             case NO_FALL -> state = hack_no_fall;
         }
 
-        Minecraft.getInstance().player.displayClientMessage(Component.literal(hack.name + " was toggled to " + MainHackScreen.colored_bool_text(state) + "§r!"), false);
+        Minecraft.getInstance().player.displayClientMessage(Component.literal("§l" + hack.name + "§r§7 was toggled to " + MainHackScreen.colored_bool_text(state) + "§r§7!"), false);
     }
 
     enum Hack{

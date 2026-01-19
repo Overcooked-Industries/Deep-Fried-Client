@@ -20,12 +20,12 @@ public class MainHackScreen extends DeepFriedScreen {
 
     @Override
     protected void init() {
-        addButton("Close", () -> Minecraft.getInstance().setScreen(null), 270, 300, 100, 20);
-        addButton("Config",  () -> Minecraft.getInstance().setScreen(new ConfigScreen()), 500, 300, 20, 20);
+        addButton("Close", (btn) -> Minecraft.getInstance().setScreen(null), 270, 300, 100, 20);
+        addButton("Config",  (btn) -> Minecraft.getInstance().setScreen(new ConfigScreen()), 500, 300, 20, 20);
 
-        addSmartButton("Fly: ",                 Hacks.fly,                   () -> Hacks.toggleHack(Hacks.Hack.FLY, false),                 0);
-        addSmartButton("Zero Gravity: ",        Hacks.no_gravity,            () -> Hacks.toggleHack(Hacks.Hack.NO_GRAVITY, false),          1);
-        addSmartButton("Invisibility-Bypass: ", Hacks.invisibility_bypass,   () -> Hacks.toggleHack(Hacks.Hack.INVISIBILITY_BYPASS, false), 2);
-        addSmartButton("No Fall: ",             Hacks.no_fall,               () -> Hacks.toggleHack(Hacks.Hack.NO_FALL, false),             3);
+        addSmartButton("Fly: ",                 Hacks.fly,                   (btn) -> Hacks.toggleHack(Hacks.Hack.FLY, false),                 0);
+        addSmartButton("Zero Gravity: ",        Hacks.no_gravity,            (btn) -> Hacks.toggleHack(Hacks.Hack.NO_GRAVITY, false),          1);
+        addSmartButton("Invisibility-Bypass: ", Hacks.invisibility_bypass,   (btn) -> Hacks.toggleHack(Hacks.Hack.INVISIBILITY_BYPASS, false), 2);
+        addSmartButton("No Fall: ",             Hacks.no_fall,               (btn) -> Hacks.toggleHack(Hacks.Hack.NO_FALL, false),             3);
     }
 }

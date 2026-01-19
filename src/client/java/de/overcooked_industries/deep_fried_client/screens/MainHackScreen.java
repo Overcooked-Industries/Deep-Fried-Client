@@ -20,8 +20,8 @@ public class MainHackScreen extends DeepFriedScreen {
 
     @Override
     protected void init() {
-        addButton("Close", (btn) -> Minecraft.getInstance().setScreen(null), 270, 300, 100, 20);
-        addButton("Config",  (btn) -> Minecraft.getInstance().setScreen(new ConfigScreen()), 500, 300, 20, 20);
+        addButton("Close",  (btn) -> Minecraft.getInstance().setScreen(null), 270, 300, 100, 20);
+        addButton("Config", (btn) -> Minecraft.getInstance().setScreen(new ConfigScreen()), 500, 300, 20, 20);
 
         addSmartButton("Fly: ",                 Hacks.fly,                   (btn) -> Hacks.toggleHack(Hacks.Hack.FLY, false),                 0);
         addSmartButton("Zero Gravity: ",        Hacks.no_gravity,            (btn) -> Hacks.toggleHack(Hacks.Hack.NO_GRAVITY, false),          1);

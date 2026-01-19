@@ -1,17 +1,31 @@
 package de.overcooked_industries.deep_fried_client;
 
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.FloatArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import de.overcooked_industries.deep_fried_client.screens.MainHackScreen;
 import static de.overcooked_industries.deep_fried_client.Hacks.Hack.*;
 import static de.overcooked_industries.deep_fried_client.Hacks.*;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.client.KeyMapping.Category;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
@@ -106,6 +120,22 @@ public class DeepFriedClientClient implements ClientModInitializer {
             if (no_gravity) PlayerMovementUtils.applyMotion(0, -motion.y, 0);
         });
 
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+            dispatcher.register(
+                    ClientCommandManager.literal("ghostgive")
+                            .then(ClientCommandManager.argument("item", ItemArgument.item(registryAccess))
+                            .then(ClientCommandManager.argument("count", IntegerArgumentType.integer(1))
+                                .executes(ctx -> {
+                                    var player = ctx.getSource().getPlayer();
+                                    var item = ItemArgument.getItem(ctx, "item").getItem();
+                                    int count = IntegerArgumentType.getInteger(ctx, "count");
+
+                                    player.getInventory().add(new ItemStack(item, count));
+                                    return 1;
+                                })
+                            ))
+            );
+        });
     }
 
     @FunctionalInterface

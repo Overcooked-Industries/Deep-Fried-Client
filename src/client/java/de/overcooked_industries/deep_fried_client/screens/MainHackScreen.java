@@ -23,11 +23,6 @@ public class MainHackScreen extends DeepFriedScreen {
         addButton("Close", () -> Minecraft.getInstance().setScreen(null), 270, 300, 100, 20);
         addButton("Config",  () -> Minecraft.getInstance().setScreen(new ConfigScreen()), 500, 300, 20, 20);
 
-        ButtonResponse toggleFly =                 () -> Hacks.fly = !Hacks.fly;
-        ButtonResponse toggleNoGravity =           () -> Hacks.no_gravity = !Hacks.no_gravity;
-        ButtonResponse toggleInvisibilityBypass =  () -> Hacks.invisibility_bypass = !Hacks.invisibility_bypass;
-        ButtonResponse toggleNoFall =              () -> Hacks.no_fall = !Hacks.no_fall;
-
         addSmartButton("Fly: ",                 Hacks.fly,                   () -> Hacks.toggleHack(Hacks.Hack.FLY, false),                 0);
         addSmartButton("Zero Gravity: ",        Hacks.no_gravity,            () -> Hacks.toggleHack(Hacks.Hack.NO_GRAVITY, false),          1);
         addSmartButton("Invisibility-Bypass: ", Hacks.invisibility_bypass,   () -> Hacks.toggleHack(Hacks.Hack.INVISIBILITY_BYPASS, false), 2);

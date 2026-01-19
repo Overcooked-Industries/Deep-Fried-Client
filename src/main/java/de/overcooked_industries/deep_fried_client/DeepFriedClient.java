@@ -14,8 +14,7 @@ public class DeepFriedClient implements ModInitializer {
         LOGGER.info("Deep Fried Client loaded.");
     }
 
-    public static Identifier id(String id)
-    {
+    public static Identifier id(String id) {
         return Identifier.fromNamespaceAndPath(MOD_ID, id);
     }
 }

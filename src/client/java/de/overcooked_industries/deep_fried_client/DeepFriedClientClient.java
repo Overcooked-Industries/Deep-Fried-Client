@@ -1,31 +1,19 @@
 package de.overcooked_industries.deep_fried_client;
 
-import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.FloatArgumentType;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.builder.RequiredArgumentBuilder;
-import de.overcooked_industries.deep_fried_client.screens.MainHackScreen;
-import static de.overcooked_industries.deep_fried_client.Hacks.Hack.*;
-import static de.overcooked_industries.deep_fried_client.Hacks.*;
-
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import de.overcooked_industries.deep_fried_client.screens.MainHackScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
-import net.minecraft.client.KeyMapping.Category;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.KeyMapping.Category;
 import net.minecraft.client.Minecraft;
-import net.minecraft.commands.CommandBuildContext;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
@@ -33,6 +21,9 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static de.overcooked_industries.deep_fried_client.Hacks.*;
+import static de.overcooked_industries.deep_fried_client.Hacks.Hack.*;
 
 public class DeepFriedClientClient implements ClientModInitializer {
     public static final List<KeyInformation> keyInformation = new ArrayList<>();
@@ -44,12 +35,12 @@ public class DeepFriedClientClient implements ClientModInitializer {
      */
     public static void registerKeybind(String id, boolean use_mouse, KeyResponse response, int default_key) {
         KeyMapping mapping = KeyBindingHelper.registerKeyBinding(
-            new KeyMapping(
-                id + ".deep_fried_client",
-                use_mouse ? InputConstants.Type.MOUSE : InputConstants.Type.KEYSYM,
-                default_key,
-                CATEGORY
-            )
+                new KeyMapping(
+                        id + ".deep_fried_client",
+                        use_mouse ? InputConstants.Type.MOUSE : InputConstants.Type.KEYSYM,
+                        default_key,
+                        CATEGORY
+                )
         );
         var keyMap = new KeyInformation(mapping, response);
         keyInformation.add(keyMap);
@@ -59,7 +50,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
         registerKeybind("hack_" + id, false, () -> Hacks.toggleHack(hack), -1);
     }
 
-    public Vec2 getVecFromYaw(double yaw){
+    public Vec2 getVecFromYaw(double yaw) {
         return new Vec2((float) -Math.sin(yaw * (Math.PI / 180)), (float) Math.cos(yaw * (Math.PI / 180)));
     }
 
@@ -87,12 +78,12 @@ public class DeepFriedClientClient implements ClientModInitializer {
 
             var options = MC.options;
 
-            boolean jump =  options.keyJump.isDown();
+            boolean jump = options.keyJump.isDown();
             boolean shift = options.keyShift.isDown();
 
-            var up =    options.keyUp.isDown();
-            var left =  options.keyLeft.isDown();
-            var down =  options.keyDown.isDown();
+            var up = options.keyUp.isDown();
+            var left = options.keyLeft.isDown();
+            var down = options.keyDown.isDown();
             var right = options.keyRight.isDown();
 
             GameType gameMode = player.gameMode();
@@ -100,23 +91,28 @@ public class DeepFriedClientClient implements ClientModInitializer {
             boolean isSpectator = gameMode == GameType.SPECTATOR;
             boolean inValidGameMode = !(isCreative || isSpectator);
 
-            if (fly && inValidGameMode){
+            if (fly && inValidGameMode) {
                 Vec3 movement_motion = new Vec3(0, 0, 0);
                 Vec2 rotation = player.getRotationVector();
 
-                if (jump)  movement_motion = movement_motion.add(new Vec3(0, 1, 0));
+                if (jump) movement_motion = movement_motion.add(new Vec3(0, 1, 0));
                 if (shift) movement_motion = movement_motion.add(new Vec3(0, -1, 0));
 
-                if (up)    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y).x, 0, getVecFromYaw(rotation.y).y));
-                if (down)  movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y + 180).x, 0, getVecFromYaw(rotation.y + 180).y));
-                if (left)  movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y - 90).x, 0, getVecFromYaw(rotation.y - 90).y));
-                if (right) movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y + 90).x, 0, getVecFromYaw(rotation.y + 90).y));
+                if (up)
+                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y).x, 0, getVecFromYaw(rotation.y).y));
+                if (down)
+                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y + 180).x, 0, getVecFromYaw(rotation.y + 180).y));
+                if (left)
+                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y - 90).x, 0, getVecFromYaw(rotation.y - 90).y));
+                if (right)
+                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y + 90).x, 0, getVecFromYaw(rotation.y + 90).y));
 
                 PlayerMovementUtils.setDeltaMovement(movement_motion);
             }
 
             Vec3 motion = player.getDeltaMovement();
-            if (no_fall)    player.connection.send(new ServerboundMovePlayerPacket.StatusOnly(true, MC.player.horizontalCollision));
+            if (no_fall)
+                player.connection.send(new ServerboundMovePlayerPacket.StatusOnly(true, MC.player.horizontalCollision));
             if (no_gravity) PlayerMovementUtils.applyMotion(0, -motion.y, 0);
         });
 
@@ -124,16 +120,16 @@ public class DeepFriedClientClient implements ClientModInitializer {
             dispatcher.register(
                     ClientCommandManager.literal("ghostgive")
                             .then(ClientCommandManager.argument("item", ItemArgument.item(registryAccess))
-                            .then(ClientCommandManager.argument("count", IntegerArgumentType.integer(1))
-                                .executes(ctx -> {
-                                    var player = ctx.getSource().getPlayer();
-                                    var item = ItemArgument.getItem(ctx, "item").getItem();
-                                    int count = IntegerArgumentType.getInteger(ctx, "count");
+                                    .then(ClientCommandManager.argument("count", IntegerArgumentType.integer(1))
+                                            .executes(ctx -> {
+                                                var player = ctx.getSource().getPlayer();
+                                                var item = ItemArgument.getItem(ctx, "item").getItem();
+                                                int count = IntegerArgumentType.getInteger(ctx, "count");
 
-                                    player.getInventory().add(new ItemStack(item, count));
-                                    return 1;
-                                })
-                            ))
+                                                player.getInventory().add(new ItemStack(item, count));
+                                                return 1;
+                                            })
+                                    ))
             );
         });
     }
@@ -143,6 +139,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
         void respond();
     }
 
-    public record KeyInformation(KeyMapping keyMappings, KeyResponse keyResponses) {}
+    public record KeyInformation(KeyMapping keyMappings, KeyResponse keyResponses) {
+    }
 
 }

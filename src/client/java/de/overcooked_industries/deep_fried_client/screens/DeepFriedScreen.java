@@ -15,11 +15,16 @@ public abstract class DeepFriedScreen extends Screen {
         Minecraft.getInstance().setScreen(this);
     }
 
-    public void addButton(String title, Runnable runnable, int pos_x, int pos_y, int size_x, int size_y) {
-        Button buttonWidget = Button.builder(Component.nullToEmpty(title), (btn) -> {
-            runnable.run();
-        }).bounds(pos_x, pos_y, size_x, size_y).build();
+    public void addButton(String title, Button.OnPress onPress, int pos_x, int pos_y, int size_x, int size_y) {
+        Button buttonWidget = Button.builder(Component.nullToEmpty(title), onPress).bounds(pos_x, pos_y, size_x, size_y).build();
         this.addRenderableWidget(buttonWidget);
+    }
+
+    public void addSmartButton(String title, boolean hack, Button.OnPress onPress, int offset) {
+        addButton(title + MainHackScreen.colored_bool_text(hack), (btn) -> {
+            onPress.onPress(btn);
+            reload();
+        }, 40, 75 + offset * 25, 150, 20);
     }
 
     public void addSlider(String title, int pos_x, int pos_y, int size_x, int size_y) {
@@ -36,13 +41,6 @@ public abstract class DeepFriedScreen extends Screen {
 
     public void add_label(GuiGraphics context, String title, int pos_x, int pos_y) {
         context.drawString(this.font, title, pos_x, pos_y - this.font.lineHeight - 10, 0xFFFFFFFF, true);
-    }
-
-    public void addSmartButton(String title, boolean hack, Runnable runnable, int offset) {
-        addButton(title + MainHackScreen.colored_bool_text(hack), () -> {
-            runnable.run();
-            reload();
-        }, 40,75 + offset * 25, 150, 20);
     }
 
     public static String colored_bool_text(boolean org_bool) {

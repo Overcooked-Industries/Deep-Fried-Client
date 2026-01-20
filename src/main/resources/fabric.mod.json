@@ -11,9 +11,6 @@
 	"icon": "assets/deep_fried_client/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main": [
-          "de.overcooked_industries.deep_fried_client.DeepFriedClient"
-		],
 		"client": [
           "de.overcooked_industries.deep_fried_client.DeepFriedClientClient"
 		]

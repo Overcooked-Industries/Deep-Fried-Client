@@ -1,6 +1,5 @@
 package de.overcooked_industries.deep_fried_client.screens;
 
-import de.overcooked_industries.deep_fried_client.DeepFriedClientClient;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.network.chat.Component;
 

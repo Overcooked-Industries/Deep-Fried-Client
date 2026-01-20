@@ -13,11 +13,14 @@ import net.minecraft.client.KeyMapping.Category;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.arguments.item.ItemArgument;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.lwjgl.glfw.GLFW;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +30,9 @@ import static de.overcooked_industries.deep_fried_client.Hacks.Hack.*;
 
 public class DeepFriedClientClient implements ClientModInitializer {
     public static final List<KeyInformation> keyInformation = new ArrayList<>();
-    public static Category CATEGORY = KeyMapping.Category.register(DeepFriedClient.id("keybinds"));
+    public static Category CATEGORY = KeyMapping.Category.register(id("keybinds"));
+    public static final String MOD_ID = "deep_fried_client";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static Minecraft MC;
 
     /**
@@ -132,6 +137,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
                                     ))
             );
         });
+        LOGGER.info("Deep Fried Client loaded.");
     }
 
     @FunctionalInterface
@@ -142,4 +148,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
     public record KeyInformation(KeyMapping keyMappings, KeyResponse keyResponses) {
     }
 
+    public static Identifier id(String id) {
+        return Identifier.fromNamespaceAndPath(MOD_ID, id);
+    }
 }

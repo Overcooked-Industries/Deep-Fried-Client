@@ -38,7 +38,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
     /**
      * @param use_mouse {@code false} to register a keyboard input, {@code true} to register a mouse input.
      */
-    public static void registerKeybind(String id, boolean use_mouse, KeyResponse response, int default_key) {
+    public static void registerKeybind(String id, boolean use_mouse, Runnable response, int default_key) {
         KeyMapping mapping = KeyBindingHelper.registerKeyBinding(
                 new KeyMapping(
                         id + ".deep_fried_client",
@@ -77,7 +77,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
 
             for (var mapping : keyInformation) {
                 if (mapping.keyMappings.isDown()) {
-                    mapping.keyResponses.respond();
+                    mapping.keyResponses.run();
                 }
             }
 
@@ -103,14 +103,10 @@ public class DeepFriedClientClient implements ClientModInitializer {
                 if (jump) movement_motion = movement_motion.add(new Vec3(0, 1, 0));
                 if (shift) movement_motion = movement_motion.add(new Vec3(0, -1, 0));
 
-                if (up)
-                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y).x, 0, getVecFromYaw(rotation.y).y));
-                if (down)
-                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y + 180).x, 0, getVecFromYaw(rotation.y + 180).y));
-                if (left)
-                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y - 90).x, 0, getVecFromYaw(rotation.y - 90).y));
-                if (right)
-                    movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y + 90).x, 0, getVecFromYaw(rotation.y + 90).y));
+                if (up) movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y).x, 0, getVecFromYaw(rotation.y).y));
+                if (down) movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y + 180).x, 0, getVecFromYaw(rotation.y + 180).y));
+                if (left) movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y - 90).x, 0, getVecFromYaw(rotation.y - 90).y));
+                if (right) movement_motion = movement_motion.add(new Vec3(getVecFromYaw(rotation.y + 90).x, 0, getVecFromYaw(rotation.y + 90).y));
 
                 PlayerMovementUtils.setDeltaMovement(movement_motion);
             }
@@ -121,32 +117,25 @@ public class DeepFriedClientClient implements ClientModInitializer {
             if (no_gravity) PlayerMovementUtils.applyMotion(0, -motion.y, 0);
         });
 
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            dispatcher.register(
-                    ClientCommandManager.literal("ghostgive")
-                            .then(ClientCommandManager.argument("item", ItemArgument.item(registryAccess))
-                                    .then(ClientCommandManager.argument("count", IntegerArgumentType.integer(1))
-                                            .executes(ctx -> {
-                                                var player = ctx.getSource().getPlayer();
-                                                var item = ItemArgument.getItem(ctx, "item").getItem();
-                                                int count = IntegerArgumentType.getInteger(ctx, "count");
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, commandBuildContext) ->
+                dispatcher.register(
+                        ClientCommandManager.literal("cgive")
+                        .then(ClientCommandManager.argument("item", ItemArgument.item(commandBuildContext))
+                                .then(ClientCommandManager.argument("count", IntegerArgumentType.integer(1))
+                                        .executes(ctx -> {
+                                            var player = ctx.getSource().getPlayer();
+                                            var item = ItemArgument.getItem(ctx, "item").getItem();
+                                            int count = IntegerArgumentType.getInteger(ctx, "count");
 
-                                                player.getInventory().add(new ItemStack(item, count));
-                                                return 1;
-                                            })
-                                    ))
-            );
-        });
+                                            player.getInventory().add(new ItemStack(item, count));
+                                            return 1;
+                                        })
+                                ))
+        ));
         LOGGER.info("Deep Fried Client loaded.");
     }
 
-    @FunctionalInterface
-    public interface KeyResponse {
-        void respond();
-    }
-
-    public record KeyInformation(KeyMapping keyMappings, KeyResponse keyResponses) {
-    }
+    public record KeyInformation(KeyMapping keyMappings, Runnable keyResponses) {}
 
     public static Identifier id(String id) {
         return Identifier.fromNamespaceAndPath(MOD_ID, id);

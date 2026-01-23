@@ -16,7 +16,6 @@
 		]
 	},
 	"mixins": [
-		"deep_fried_client.mixins.json",
 		{
 			"config": "deep_fried_client.client.mixins.json",
 			"environment": "client"

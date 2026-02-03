@@ -12,6 +12,8 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.KeyMapping.Category;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.arguments.item.ItemArgument;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
@@ -131,6 +133,18 @@ public class DeepFriedClientClient implements ClientModInitializer {
                                             return 1;
                                         })
                                 ))
+        ));
+
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, commandBuildContext) ->
+                dispatcher.register(
+                        ClientCommandManager.literal("lastdeath")
+                                                .executes(ctx -> {
+                                                    var player = ctx.getSource().getPlayer();
+                                                    var location = player.getLastDeathLocation();
+                                                    ctx.getSource().sendFeedback(Component.literal(location.<String>map(GlobalPos::toString).orElse("Last death location unknown")));
+                                                    return 0;
+                                                }
+                )
         ));
         LOGGER.info("Deep Fried Client loaded.");
     }

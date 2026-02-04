@@ -12,37 +12,9 @@ public class Hacks {
 
     public static int hack_cooldown = 0;
 
+    @Deprecated(forRemoval = true)
     public static void toggleHack(Hack hack, boolean show_message) {
-        if (hack_cooldown != 0) {
-            hack_cooldown = 2;
-            return;
-        }
-        hack_cooldown = 2;
-
-        boolean state = false;
-        switch (hack) {
-            case FLY -> {
-                fly = !fly;
-                state = fly;
-            }
-            case NO_GRAVITY -> {
-                no_gravity = !no_gravity;
-                state = no_gravity;
-            }
-            case INVISIBILITY_BYPASS -> {
-                invisibility_bypass = !invisibility_bypass;
-                state = invisibility_bypass;
-            }
-            case NO_FALL -> {
-                no_fall = !no_fall;
-                state = no_fall;
-            }
-        }
-
-        assert Minecraft.getInstance().player != null;
-
-        if (show_message)
-            Minecraft.getInstance().player.displayClientMessage(Component.literal("§l" + hack.name + "§r§7 was toggled to " + MainHackScreen.colored_bool_text(state) + "§r§7!"), false);
+        hack.toggle(show_message);
     }
 
     public static void toggleHack(Hack hack) {
@@ -56,6 +28,21 @@ public class Hacks {
         NO_FALL("No Fall");
 
         final String name;
+        boolean active = false;
+
+        public void toggle(boolean show_message){
+            if (hack_cooldown != 0) {
+                hack_cooldown = 2;
+                return;
+            }
+            hack_cooldown = 2;
+
+            boolean state = false;
+            active = !active;
+
+            assert Minecraft.getInstance().player != null;
+            if (show_message) Minecraft.getInstance().player.displayClientMessage(Component.literal("§l" + name + "§r§7 was toggled to " + MainHackScreen.colored_bool_text(state) + "§r§7!"), false);
+        }
 
         Hack(String name) {
             this.name = name;

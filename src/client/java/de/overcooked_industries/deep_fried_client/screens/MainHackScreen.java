@@ -3,7 +3,7 @@ package de.overcooked_industries.deep_fried_client.screens;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 
-import static de.overcooked_industries.deep_fried_client.Hacks.Hack.*;
+import static de.overcooked_industries.deep_fried_client.Hack.*;
 
 public class MainHackScreen extends DeepFriedScreen {
     public MainHackScreen() {

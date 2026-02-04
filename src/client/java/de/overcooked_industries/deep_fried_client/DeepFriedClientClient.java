@@ -27,8 +27,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import static de.overcooked_industries.deep_fried_client.Hacks.*;
-import static de.overcooked_industries.deep_fried_client.Hacks.Hack.*;
+import static de.overcooked_industries.deep_fried_client.Hack.*;
 
 public class DeepFriedClientClient implements ClientModInitializer {
     public static final List<KeyInformation> keyInformation = new ArrayList<>();

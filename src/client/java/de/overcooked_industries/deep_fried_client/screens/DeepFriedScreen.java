@@ -1,6 +1,6 @@
 package de.overcooked_industries.deep_fried_client.screens;
 
-import de.overcooked_industries.deep_fried_client.Hacks;
+import de.overcooked_industries.deep_fried_client.Hack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -21,7 +21,7 @@ public abstract class DeepFriedScreen extends Screen {
         this.addRenderableWidget(buttonWidget);
     }
 
-    public void addSmartButton(String title, Hacks.Hack hack, int offset, boolean show_message) {
+    public void addSmartButton(String title, Hack hack, int offset, boolean show_message) {
         addButton(title + MainHackScreen.colored_bool_text(hack.active), () -> {
             hack.toggle(show_message);
             reload();

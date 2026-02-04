@@ -141,7 +141,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
                                                 .executes(ctx -> {
                                                     var player = ctx.getSource().getPlayer();
                                                     var location = player.getLastDeathLocation();
-                                                    ctx.getSource().sendFeedback(Component.literal(location.<String>map(GlobalPos::toString).orElse("Last death location unknown")));
+                                                    ctx.getSource().sendFeedback(Component.literal(location.map(GlobalPos::toString).orElse("Last death location unknown")));
                                                     return 0;
                                                 }
                 )

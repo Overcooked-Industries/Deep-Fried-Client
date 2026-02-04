@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static de.overcooked_industries.deep_fried_client.Hacks.*;
 import static de.overcooked_industries.deep_fried_client.Hacks.Hack.*;
@@ -55,7 +54,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
     }
 
     public static void registerHackKeybind(String id, Hack hack) {
-        registerKeybind("hack_" + id, false, () -> Hacks.toggleHack(hack), -1);
+        registerKeybind("hack_" + id, false, () -> hack.toggle(true), -1);
     }
 
     public Vec2 getVecFromYaw(double yaw) {
@@ -76,7 +75,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
             var player = MC.player;
             if (player == null) return;
 
-            if (hack_cooldown > 0) hack_cooldown -= 1;
+            if (global_cooldown > 0) global_cooldown -= 1;
 
             for (var mapping : keyInformation) {
                 if (mapping.keyMappings.isDown()) {
@@ -99,7 +98,7 @@ public class DeepFriedClientClient implements ClientModInitializer {
             boolean isSpectator = gameMode == GameType.SPECTATOR;
             boolean inValidGameMode = !(isCreative || isSpectator);
 
-            if (fly && inValidGameMode) {
+            if (FLY.active && inValidGameMode) {
                 Vec3 movement_motion = new Vec3(0, 0, 0);
                 Vec2 rotation = player.getRotationVector();
 
@@ -115,9 +114,8 @@ public class DeepFriedClientClient implements ClientModInitializer {
             }
 
             Vec3 motion = player.getDeltaMovement();
-            if (no_fall)
-                player.connection.send(new ServerboundMovePlayerPacket.StatusOnly(true, MC.player.horizontalCollision));
-            if (no_gravity) PlayerMovementUtils.applyMotion(0, -motion.y, 0);
+            if (NO_FALL.active) player.connection.send(new ServerboundMovePlayerPacket.StatusOnly(true, MC.player.horizontalCollision));
+            if (NO_GRAVITY.active) PlayerMovementUtils.applyMotion(0, -motion.y, 0);
         });
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, commandBuildContext) ->

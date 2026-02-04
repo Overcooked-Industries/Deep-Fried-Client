@@ -16,7 +16,7 @@ public class ConfigScreen extends DeepFriedScreen {
 
     @Override
     protected void init() {
-        addButton("Back", (btn) -> Minecraft.getInstance().setScreen(new MainHackScreen()), 270, 300, 100, 20);
+        addButton("Back", () -> Minecraft.getInstance().setScreen(new MainHackScreen()), 270, 300, 100, 20);
         addSlider("Flight Speed", 40, 75, 150, 20);
     }
 }

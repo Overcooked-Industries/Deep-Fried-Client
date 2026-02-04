@@ -1,11 +1,9 @@
 package de.overcooked_industries.deep_fried_client.screens;
 
-import de.overcooked_industries.deep_fried_client.Hacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
+
+import static de.overcooked_industries.deep_fried_client.Hacks.Hack.*;
 
 public class MainHackScreen extends DeepFriedScreen {
     public MainHackScreen() {
@@ -20,12 +18,12 @@ public class MainHackScreen extends DeepFriedScreen {
 
     @Override
     protected void init() {
-        addButton("Close",  (btn) -> Minecraft.getInstance().setScreen(null), 270, 300, 100, 20);
-        addButton("Config", (btn) -> Minecraft.getInstance().setScreen(new ConfigScreen()), 500, 300, 20, 20);
+        addButton("Close", () -> Minecraft.getInstance().setScreen(null), 270, 300, 100, 20);
+        addButton("Config", () -> Minecraft.getInstance().setScreen(new ConfigScreen()), 500, 300, 20, 20);
 
-        addSmartButton("Fly: ",                 Hacks.fly,                   (btn) -> Hacks.toggleHack(Hacks.Hack.FLY, false),                 0);
-        addSmartButton("Zero Gravity: ",        Hacks.no_gravity,            (btn) -> Hacks.toggleHack(Hacks.Hack.NO_GRAVITY, false),          1);
-        addSmartButton("Invisibility-Bypass: ", Hacks.invisibility_bypass,   (btn) -> Hacks.toggleHack(Hacks.Hack.INVISIBILITY_BYPASS, false), 2);
-        addSmartButton("No Fall: ",             Hacks.no_fall,               (btn) -> Hacks.toggleHack(Hacks.Hack.NO_FALL, false),             3);
+        addSmartButton("Fly: ", FLY, 0, false);
+        addSmartButton("Zero Gravity: ", NO_GRAVITY, 1, false);
+        addSmartButton("Invisibility-Bypass: ", INVISIBILITY_BYPASS, 2, false);
+        addSmartButton("No Fall: ", NO_FALL, 3, false);
     }
 }

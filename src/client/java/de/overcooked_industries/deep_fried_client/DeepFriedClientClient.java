@@ -161,11 +161,12 @@ public class DeepFriedClientClient implements ClientModInitializer {
                                 .then(ClientCommandManager.argument("pos", BlockPosArgument.blockPos())
                                         .then(ClientCommandManager.argument("block", BlockStateArgument.block(commandBuildContext))
                                                 .executes(ctx -> {
-                                                    var location =   getBlockPos(ctx, "pos");
-                                                    var blockState = ctx.getArgument("block", BlockInput.class).getState();
+                                                    assert MC.player != null;
                                                     assert MC.level != null;
-                                                    MC.level.setBlock(location, blockState, UPDATE_ALL);
+                                                    var blockState = ctx.getArgument("block", BlockInput.class).getState();
+                                                    var location = BlockPos.containing(MC.player.position());
 
+                                                    MC.level.setBlock(location, blockState, UPDATE_ALL);
                                                     return 1;
                                                 })
                                         ))
@@ -173,10 +174,6 @@ public class DeepFriedClientClient implements ClientModInitializer {
         LOGGER.info("Deep Fried Client loaded.");
     }
 
-    public static BlockPos getBlockPos(@UnknownNullability CommandContext<FabricClientCommandSource> commandContext, String string) {
-        assert MC.player != null;
-        return BlockPos.containing(MC.player.position());
-    }
 
     public record KeyInformation(KeyMapping keyMappings, Runnable keyResponses) {}
 

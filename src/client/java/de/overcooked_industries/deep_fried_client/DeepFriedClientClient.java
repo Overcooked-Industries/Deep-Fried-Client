@@ -4,6 +4,8 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import de.overcooked_industries.deep_fried_client.screens.MainHackScreen;
+import dev.xpple.clientarguments.ClientArguments;
+import dev.xpple.clientarguments.arguments.CBlockPosArgument;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -158,13 +160,13 @@ public class DeepFriedClientClient implements ClientModInitializer {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, commandBuildContext) ->
                 dispatcher.register(
                         ClientCommandManager.literal("csetblock")
-                                .then(ClientCommandManager.argument("pos", BlockPosArgument.blockPos())
+                                .then(ClientCommandManager.argument("pos", CBlockPosArgument.blockPos())
                                         .then(ClientCommandManager.argument("block", BlockStateArgument.block(commandBuildContext))
                                                 .executes(ctx -> {
                                                     assert MC.player != null;
                                                     assert MC.level != null;
                                                     var blockState = ctx.getArgument("block", BlockInput.class).getState();
-                                                    var location = BlockPos.containing(MC.player.position());
+                                                    var location = CBlockPosArgument.getBlockPos(ctx,"pos");
 
                                                     MC.level.setBlock(location, blockState, UPDATE_ALL);
                                                     return 1;

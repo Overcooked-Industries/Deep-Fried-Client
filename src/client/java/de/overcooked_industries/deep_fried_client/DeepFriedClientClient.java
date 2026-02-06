@@ -2,16 +2,24 @@ package de.overcooked_industries.deep_fried_client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.context.CommandContext;
 import de.overcooked_industries.deep_fried_client.screens.MainHackScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.KeyMapping.Category;
 import net.minecraft.client.Minecraft;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.blocks.BlockInput;
+import net.minecraft.commands.arguments.blocks.BlockStateArgument;
+import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.commands.arguments.coordinates.Coordinates;
 import net.minecraft.commands.arguments.item.ItemArgument;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
@@ -20,6 +28,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.UnknownNullability;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static de.overcooked_industries.deep_fried_client.Hack.*;
+import static net.minecraft.world.level.block.Block.UPDATE_ALL;
 
 public class DeepFriedClientClient implements ClientModInitializer {
     public static final List<KeyInformation> keyInformation = new ArrayList<>();
@@ -144,7 +154,28 @@ public class DeepFriedClientClient implements ClientModInitializer {
                                                 }
                 )
         ));
+
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, commandBuildContext) ->
+                dispatcher.register(
+                        ClientCommandManager.literal("csetblock")
+                                .then(ClientCommandManager.argument("pos", BlockPosArgument.blockPos())
+                                        .then(ClientCommandManager.argument("block", BlockStateArgument.block(commandBuildContext))
+                                                .executes(ctx -> {
+                                                    var location =   getBlockPos(ctx, "pos");
+                                                    var blockState = ctx.getArgument("block", BlockInput.class).getState();
+                                                    assert MC.level != null;
+                                                    MC.level.setBlock(location, blockState, UPDATE_ALL);
+
+                                                    return 1;
+                                                })
+                                        ))
+                ));
         LOGGER.info("Deep Fried Client loaded.");
+    }
+
+    public static BlockPos getBlockPos(@UnknownNullability CommandContext<FabricClientCommandSource> commandContext, String string) {
+        assert MC.player != null;
+        return BlockPos.containing(MC.player.position());
     }
 
     public record KeyInformation(KeyMapping keyMappings, Runnable keyResponses) {}
